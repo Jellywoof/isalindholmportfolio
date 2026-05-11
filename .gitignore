@@ -1,0 +1,20 @@
+# Cowork / Claude internals
+.claude/
+
+# macOS
+.DS_Store
+**/.DS_Store
+*.HEIC
+
+# Adobe / project files
+*.prproj
+*.prin
+Adobe\ Premiere\ Pro\ Auto-Save/
+CV\ -\ personligbrev/
+
+# HTML archive (old versions)
+HTML/
+
+# Large video files (over GitHub 100MB limit)
+"Undersidor/Abort-steg-for-steg/Isa_video_2 (1).mp4"
+"Undersidor/Jurrasic Park - Nightfall/Hero_video.mp4"

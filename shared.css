@@ -1,0 +1,98 @@
+/* ================================================================
+   SHARED.CSS  –  Isa Lindholm portfolio
+   Gemensam CSS för alla sidor: reset, nav, hamburger, mobilmeny.
+   Sidspecifika stilar hålls i varje HTML-fils egna <style>-block.
+   ================================================================ */
+
+/* ── RESET ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+/* ── DELADE VARIABLER ── */
+:root {
+  --arb: 'arboria', sans-serif;
+  --nm:  'Neue Montreal', sans-serif;
+  --dark: #181818;
+  --white: #fff;
+  --pad: clamp(1.4rem, 5vw, 5rem);
+}
+
+/* ── NAV – baslayout (gemensam position/struktur) ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+  display: flex; justify-content: center; align-items: center;
+  padding: 1.2rem var(--pad);
+}
+
+/* ── NAV PILL – standardutseende (statiska sidor) ── */
+.nav-pill {
+  display: flex; align-items: center; list-style: none;
+  background: rgba(255,255,255,.35);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,.5);
+  border-radius: 100px; padding: 5px 5px 5px 18px;
+}
+.nav-pill li { padding: 0 1.4rem; }
+.nav-pill li:last-child { padding: 0; }
+.nav-pill li a {
+  text-decoration: none; color: var(--dark);
+  font-size: .68rem; letter-spacing: .08em; text-transform: uppercase;
+  font-weight: 400; opacity: .6; transition: opacity .2s;
+}
+.nav-pill li a:hover { opacity: 1; }
+
+/* ── NAV CTA-knapp ── */
+.nav-cta {
+  display: inline-flex; align-items: center;
+  background: var(--dark); color: white !important;
+  padding: 9px 22px; border-radius: 100px;
+  font-size: .68rem; font-weight: 600; letter-spacing: .06em;
+  text-transform: uppercase; text-decoration: none;
+  white-space: nowrap; opacity: 1 !important; transition: all .3s;
+}
+
+/* ── HAMBURGER-KNAPP ── */
+.ham-btn {
+  display: none;
+  position: fixed; top: 1rem; right: 1.2rem; z-index: 400;
+  width: 46px; height: 46px; border-radius: 50%;
+  background: rgba(255,255,255,.65); backdrop-filter: blur(14px);
+  border: 1px solid rgba(0,0,0,.12);
+  flex-direction: column; justify-content: center; align-items: center;
+  gap: 5px; cursor: pointer;
+}
+.ham-btn span {
+  display: block; width: 20px; height: 2px;
+  background: var(--dark); border-radius: 2px; transition: all .3s;
+}
+
+/* ── MOBILMENY ── */
+.mob-menu {
+  display: flex !important;
+  position: fixed; inset: 0; z-index: 350;
+  flex-direction: column; justify-content: center; align-items: center; gap: 2.2rem;
+  background: rgba(255,255,255,.55);
+  opacity: 0; pointer-events: none; transition: opacity .3s;
+}
+.mob-menu.open {
+  opacity: 1; pointer-events: all;
+  backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px);
+}
+.mob-menu a {
+  font-family: var(--arb); font-size: 2rem; font-weight: 700;
+  color: var(--dark); text-decoration: none;
+  letter-spacing: -.02em; line-height: 1;
+  -webkit-text-size-adjust: 100%; text-size-adjust: 100%;
+}
+.mob-menu .mob-cta {
+  background: var(--dark); color: white !important;
+  font-family: var(--nm); font-size: .78rem; font-weight: 600;
+  letter-spacing: .07em; text-transform: uppercase;
+  padding: 13px 32px; border-radius: 100px; margin-top: .5rem;
+}
+
+/* ── MOBILBRYTPUNKT ── */
+@media (max-width: 768px) {
+  nav { display: none; }
+  .ham-btn { display: flex !important; }
+}

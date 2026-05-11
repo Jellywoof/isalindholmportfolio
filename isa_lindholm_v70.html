@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Isa Lindholm</title>
+<link rel="icon" href="thumbnail.png" type="image/png">
+<link rel="stylesheet" href="https://use.typekit.net/bzd2orb.css">
+<link rel="stylesheet" href="shared.css">
+<style>
+@font-face{font-family:'NeueMontreal';src:url('fonts/NeueMontreal_0.otf') format('otf')} format('opentype');font-weight:400;font-style:normal}@font-face{font-family:'NeueMontreal';src:url('fonts/NeueMontreal_1.otf') format('otf')} format('opentype');font-weight:500;font-style:normal}@font-face{font-family:'Frama';src:url('fonts/Frama_2.otf') format('otf')} format('opentype');font-weight:400;font-style:normal}@font-face{font-family:'Frama';src:url('fonts/Frama_3.otf') format('otf')} format('opentype');font-weight:900;font-style:normal}@font-face{font-family:'Formula';src:url('fonts/Formula_4.otf') format('otf')} format('opentype');font-weight:500;font-style:normal}@font-face{font-family:'Formula';src:url('fonts/Formula_5.otf') format('otf')} format('opentype');font-weight:700;font-style:normal}
+
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --nm:'NeueMontreal',sans-serif;
+  --arb:'arboria',sans-serif;
+  --frama:'Frama',sans-serif;
+  --pad:clamp(4rem,10vw,12rem);
+  --c1-bg:#3c7c6b; --c1-acc:#f3ccce;
+  --c2-bg:#d4e8f7; --c2-acc:#8a2747;
+  --c3-bg:#4b7cbc; --c3-acc:#fce084;
+  --c4-bg:#ffe59c; --c4-acc:#db7138;
+  --c5-bg:#c1b7d0; --c5-acc:#faf7c4;
+  --dark:#181818; --white:#fff;
+}
+html{scroll-behavior:smooth;overflow-x:clip}
+body{font-family:var(--nm);font-weight:500;background:var(--white);color:var(--dark);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;height:auto}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:300;display:flex;justify-content:center;align-items:center;padding:1.2rem var(--pad);transition:all .4s}
+.nav-logo{font-family:var(--nm);font-size:.8rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:white;text-decoration:none;transition:color .3s}
+nav.scrolled .nav-logo{color:var(--dark)}
+.nav-pill{display:flex;align-items:center;gap:0;list-style:none;background:rgba(255,255,255,.15);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.28);border-radius:100px;padding:5px 5px 5px 18px;transition:background .4s,border-color .4s}
+.nav-pill li{padding:0 1.4rem}
+.nav-pill li:last-child{padding:0}
+nav.scrolled .nav-pill{background:rgba(255,255,255,.35);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-color:rgba(255,255,255,.45)}
+.nav-pill li a{text-decoration:none;color:white;font-family:var(--nm);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;font-weight:400;opacity:.85;transition:opacity .2s,color .3s}
+nav.scrolled .nav-pill li a{color:var(--dark);opacity:.6}
+.nav-pill li a:hover{opacity:1}
+.nav-cta{display:inline-flex;align-items:center;background:white;color:var(--dark)!important;padding:9px 22px;border-radius:100px;font-family:var(--nm);font-size:.68rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;transition:all .3s;white-space:nowrap;opacity:1!important}
+nav.scrolled .nav-cta{background:var(--dark);color:white!important}
+.nav-cta:hover{background:var(--c1-bg);color:white}
+
+/* HERO */
+.hero{position:relative;height:100vh;overflow:hidden;background:#0d0d0d}
+.hero-frame{position:relative;overflow:hidden;z-index:3}
+.section-cover{position:absolute;bottom:0;left:0;right:0;height:110%;background:var(--cover-bg);border-radius:48% 48% 0 0 / 70px 70px 0 0;transform:translateY(100%) translateZ(0);z-index:10;pointer-events:none;will-change:transform;isolation:isolate}
+.hero-cover{position:absolute;bottom:0;left:0;right:0;height:110%;background:#b7d6ed;border-radius:48% 48% 0 0 / 70px 70px 0 0;transform:translateY(100%);z-index:10;pointer-events:none;will-change:transform}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(155deg,#162e1f 0%,#25583a 50%,#1a3d2a 100%)}
+.hero-gif{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.hero-overlay{position:absolute;inset:0;background:rgba(0,0,0,.18);z-index:2}
+.hero-bottom{position:absolute;bottom:2.5rem;left:0;right:0;z-index:3;padding:0 clamp(.8rem,2vw,1.5rem);display:flex;justify-content:space-between;align-items:flex-end}
+.hero-logo img{width:min(560px,58vw);height:auto;filter:brightness(0) invert(1);opacity:.95;display:block}
+.ham-btn{display:none}.mob-menu{display:none}.scroll-wrap{display:flex;flex-direction:column;align-items:center;gap:.5rem}
+.scroll-lbl{font-family:var(--nm);font-size:.44rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.2)}
+.scroll-bar{width:1px;height:28px;background:rgba(255,255,255,.14);position:relative;overflow:hidden}
+.scroll-bar::after{content:'';position:absolute;top:-100%;width:100%;height:100%;background:rgba(255,255,255,.48);animation:sb 1.8s ease-in-out infinite}
+@keyframes sb{to{top:200%}}
+
+/* PANELS */
+.panel{position:relative;border-radius:28px 28px 0 0;margin-top:-28px;box-shadow:none}
+
+/* WORK */
+.work-frame{position:relative;overflow:hidden;z-index:2;-webkit-transform:translateZ(0);transform:translateZ(0)}
+.work-panel{background:#b7d6ed}
+.work-header{padding:clamp(3.5rem,6vw,6rem) var(--pad) .8rem}
+h2.work-title{
+  font-family:var(--arb);font-weight:700;
+  font-size:clamp(3rem,6vw,5.5rem);
+  color:#842121;line-height:1.1;
+  letter-spacing:-.02em;
+  display:block;
+}
+h2.work-title em{font-style:italic}
+.view-all-wrap{padding:0.3rem var(--pad) clamp(4rem,7vw,5rem);margin-top:0;text-align:right}
+.view-all{font-family:var(--nm);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:#842121;opacity:.6;text-decoration:none;border-bottom:1px solid #842121;padding-bottom:1px;transition:opacity .2s}
+.view-all:hover{opacity:1}
+.marquee-track{overflow:hidden;width:100%;padding:2rem 0 clamp(3rem,5vw,5rem)}
+@keyframes marquee-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@-webkit-keyframes marquee-scroll{from{-webkit-transform:translateX(0)}to{-webkit-transform:translateX(-50%)}}
+.marquee-inner{display:flex;gap:1rem;width:max-content;animation:marquee-scroll 22s linear infinite;-webkit-animation:marquee-scroll 22s linear infinite;-webkit-transform:translateZ(0);transform:translateZ(0);backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.marquee-track:hover .marquee-inner{animation-play-state:paused;-webkit-animation-play-state:paused}
+.pcard{flex-shrink:0;width:clamp(160px,18vw,260px);border-radius:14px;overflow:hidden;cursor:pointer;transition:transform .3s ease,box-shadow .3s;text-decoration:none;display:block}
+.pcard:hover{box-shadow:0 20px 50px rgba(0,0,0,.2)}
+.pcard-img{width:100%;aspect-ratio:4/5;overflow:hidden;display:block}
+.pcard-thumb{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
+.pcard:hover .pcard-thumb{transform:scale(1.06)}
+.bg1{background:#C5D8F5}.bg2{background:#A8D4C0}.bg3{background:#F5C8C8}
+.bg4{background:#F0D4A0}.bg5{background:#C8B8E8}.bg6{background:#e0d8f0}
+
+/* EXP */
+.exp-panel{background:var(--white);position:relative;z-index:2}
+.exp-layout{display:grid;grid-template-columns:1fr 1fr;min-height:100vh}
+.exp-left{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;justify-content:center;padding:4rem calc(var(--pad)*1.2) 4rem var(--pad);background:var(--white)}
+h2.exp-hl{font-family:var(--arb);font-weight:700;font-size:clamp(3rem,5.5vw,5rem);color:var(--dark);line-height:.95;letter-spacing:-.02em;margin-bottom:1.2rem}
+h2.exp-hl em{font-style:italic}
+.exp-eyebrow{font-family:var(--nm);font-size:.52rem;letter-spacing:.28em;text-transform:uppercase;font-weight:500;opacity:.35;margin-bottom:1rem;display:block}
+.exp-sub{font-family:var(--nm);font-weight:500;font-size:1.05rem;line-height:1.85;color:rgba(0,0,0,.45);margin-bottom:2.5rem;max-width:340px}
+.btns{display:flex;flex-direction:row;gap:1rem;flex-wrap:wrap}
+.btn{display:inline-block;padding:11px 22px;border-radius:100px;font-family:var(--nm);font-size:.7rem;font-weight:500;letter-spacing:.05em;text-transform:uppercase;text-decoration:none;transition:all .2s;cursor:pointer;border:none}
+.btn-cv{background:var(--c2-bg);color:var(--c2-acc)}
+.btn-cv:hover{background:#bdd8ee}
+.btn-cover{background:var(--c4-bg);color:var(--c4-acc)}
+.btn-cover:hover{background:#ffd870}
+.exp-right{background:var(--white);padding:clamp(2rem,4vw,4rem) clamp(2.5rem,5vw,5rem) clamp(10rem,18vh,16rem);display:flex;flex-direction:column;gap:1rem;align-items:flex-start}
+.exp-card{border-radius:28px;padding:clamp(1.4rem,2.5vw,2rem) clamp(1.6rem,2.8vw,2.2rem);display:flex;flex-direction:column;gap:clamp(.5rem,1vw,.8rem);width:88%;transition:transform .45s ease}
+.exp-card:nth-child(odd){align-self:flex-start;transform:translateX(-1.5%) rotate(-1deg)}
+.exp-card:nth-child(even){align-self:flex-end;transform:translateX(1.5%) rotate(0.8deg)}
+.exp-card.active{transform:translateX(0) rotate(0deg) scale(1.04)}
+.exp-chip{display:inline-block;padding:6px 18px;border-radius:100px;font-family:var(--nm);font-size:.7rem;font-weight:500;letter-spacing:.04em;align-self:flex-start}
+.exp-company{font-family:var(--arb);font-weight:700;font-size:clamp(1.2rem,2vw,1.55rem);letter-spacing:-.01em;line-height:1.1}
+.exp-desc{font-family:var(--nm);font-weight:500;font-size:clamp(.88rem,1.2vw,.97rem);line-height:1.85}
+.exp-meta{font-family:var(--nm);font-weight:400;font-size:clamp(.74rem,1vw,.84rem);opacity:.7}
+/* Color combos */
+.ec-1{background:var(--c1-bg)} .ec-1 .exp-chip{background:var(--c1-acc);color:var(--c1-bg)} .ec-1 .exp-company,.ec-1 .exp-desc,.ec-1 .exp-meta{color:var(--c1-acc)}
+.ec-2{background:var(--c2-bg)} .ec-2 .exp-chip{background:var(--c2-acc);color:white} .ec-2 .exp-company,.ec-2 .exp-desc,.ec-2 .exp-meta{color:var(--c2-acc)}
+.ec-3{background:var(--c3-bg)} .ec-3 .exp-chip{background:var(--c3-acc);color:var(--c3-bg)} .ec-3 .exp-company,.ec-3 .exp-desc,.ec-3 .exp-meta{color:var(--c3-acc)}
+.ec-4{background:var(--c4-bg)} .ec-4 .exp-chip{background:var(--c4-acc);color:var(--c4-bg)} .ec-4 .exp-company,.ec-4 .exp-desc,.ec-4 .exp-meta{color:var(--c4-acc)}
+
+/* ABOUT */
+.about-panel{background:var(--c3-bg);box-shadow:none;z-index:3}
+.about-inner{padding:clamp(5rem,9vw,9rem) var(--pad);display:grid;grid-template-columns:1fr 1fr;gap:clamp(3rem,6vw,6rem);align-items:center}
+.about-eyebrow{font-family:var(--nm);font-size:.52rem;letter-spacing:.28em;text-transform:uppercase;font-weight:500;margin-bottom:1.2rem;display:block;color:rgba(252,224,132,.45)}
+h2.about-hl{font-family:var(--arb);font-weight:700;font-size:clamp(3rem,6vw,5.5rem);color:var(--c3-acc);line-height:.95;letter-spacing:-.02em;margin-bottom:2rem}
+h2.about-hl em{font-style:italic}
+.about-body{font-family:var(--nm);font-weight:500;font-size:clamp(.98rem,1.4vw,1.08rem);line-height:2;color:rgba(252,224,132,.85);max-width:460px;margin-bottom:2.5rem}
+.about-avail{grid-column:1;padding-top:.5rem;padding-bottom:1rem}.avail{display:inline-flex;align-items:center;gap:.6rem;font-family:var(--nm);font-size:.76rem;font-weight:500;color:var(--c3-acc)}
+.avail-dot{width:8px;height:8px;border-radius:50%;background:var(--c3-acc);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.portrait-wrap{display:flex;align-items:center;justify-content:center}
+.portrait{width:75%;aspect-ratio:3/4;border-radius:22px;overflow:hidden}
+.portrait img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
+
+/* FOOTER */
+footer{background:#fde6a4;padding:2rem var(--pad);display:flex;justify-content:center;align-items:center;gap:2.5rem;flex-wrap:wrap}
+.foot-logo{height:20px;filter:brightness(0) invert(1) sepia(1) saturate(4) hue-rotate(192deg) brightness(.75);opacity:1}
+.foot-links{display:flex;gap:1.8rem}
+.foot-links a{font-family:var(--nm);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:#4b7cbc;font-weight:600;text-decoration:none;transition:color .2s}
+.foot-links a:hover{color:var(--c3-bg)}
+.foot-copy{font-family:var(--nm);font-size:.55rem;color:rgba(75,124,188,.45)}
+
+.reveal{opacity:0;transform:scale(0.95) translateY(30px);transition:opacity .7s cubic-bezier(.25,.46,.45,.94),transform .7s cubic-bezier(.25,.46,.45,.94)}
+.reveal.in{opacity:1;transform:scale(1) translateY(0)}
+.reveal-d1{transition-delay:.12s}
+.reveal-d2{transition-delay:.22s}
+.reveal-d3{transition-delay:.32s}
+
+
+/* DEKORATIVA STJÄRNOR I HERO */
+.deco-star{position:absolute;fill:white;opacity:0;animation:starfade 3s ease-in-out infinite}
+.deco-star-1{width:22px;height:22px;top:18%;left:14%;animation-delay:0s}
+.deco-star-2{width:14px;height:14px;top:32%;right:18%;animation-delay:.9s}
+.deco-star-3{width:18px;height:18px;top:62%;left:8%;animation-delay:1.7s}
+.deco-star-4{width:10px;height:10px;top:24%;right:38%;animation-delay:.4s}
+.deco-star-5{width:16px;height:16px;top:72%;right:12%;animation-delay:1.2s}
+@keyframes starfade{0%,100%{opacity:.18}50%{opacity:.55}}
+
+
+/* ════════════════════════════════════════════
+   MOBILE  ≤ 768px
+   ════════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+  /* ── Variables: side padding ── */
+  :root { --pad: 1.6rem; }
+
+
+  /* ── HERO FRAME: no border on mobile ── */
+  .hero-frame { overflow: hidden; }
+  .hero { height: 100svh; height: 100vh; border-radius: 0; }
+  nav { padding: .9rem var(--pad); }
+  .hero-cover, .section-cover { border-radius: 50% 50% 0 0 / 40px 40px 0 0; }
+  .panel { border-radius: 0; margin-top: -2px; }
+  /* Dölj deco-stjärnor på mobil — CSS-animationer skapar GPU-lager som kan störa section-cover */
+  .deco-star { display: none; }
+
+  /* ── NAV: hide desktop pill ── */
+  nav { display: none; }
+
+  /* ── HAMBURGER BUTTON (circle glass) ── */
+  .ham-btn {
+    display: flex !important;
+    position: fixed;
+    top: 1rem;
+    right: 1.2rem;
+    z-index: 400;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.15);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255,255,255,.28);
+    cursor: pointer;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 0;
+    transition: background .3s;
+  }
+  .ham-btn span {
+    display: block;
+    width: 18px;
+    height: 2px;
+    background: white;
+    border-radius: 2px;
+    transition: all .35s;
+  }
+  .ham-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .ham-btn.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  .ham-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* Mobilmeny — se shared.css */
+
+  /* ── HERO: 4:5 ratio, full width, NO rounded bottom corners ── */
+  .hero {
+    height: auto;
+    aspect-ratio: 4 / 5;
+    margin: 0;
+    border-radius: 0;
+  }
+  .hero-logo img { width: 78vw; }
+  .hero-bottom { padding: 0 1.4rem 1.4rem; bottom: 0; }
+
+  /* ── WORK ── */
+  .work-header { padding: 4rem var(--pad) .5rem; }
+  h2.work-title { font-size: clamp(1.9rem,7vw,2.8rem); }
+  .marquee-track { padding: 1.2rem 0 2rem; overflow: hidden; }
+  .marquee-inner { gap: .7rem; }
+  .pcard { width: clamp(140px,52vw,220px); }
+
+  /* ── EXP: overflow:hidden clips the section-cover to panel bounds ── */
+  .exp-panel  { overflow: hidden; }
+  .exp-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: unset;
+  }
+  .exp-left {
+    position: static;
+    height: auto;
+    padding: 3rem var(--pad) 1.5rem;
+  }
+  h2.exp-hl { font-size: clamp(1rem,7vw,1.9rem); }
+  .exp-sub {
+    max-width: 100%;
+    font-size: clamp(.78rem,3.2vw,.88rem);
+    line-height: 1.7;
+    margin-bottom: 1.6rem;
+  }
+  .btns { justify-content: center; gap: .7rem; }
+  .exp-right {
+    padding: .5rem var(--pad) 3rem;
+    gap: 1.4rem;
+    align-items: center;
+    overflow-x: hidden;
+  }
+  .exp-card { width: 100%; max-width: 100%; box-sizing: border-box; }
+  .exp-card:nth-child(odd) {
+    align-self: center;
+    transform: translateX(-3%) rotate(-1.2deg);
+  }
+  .exp-card:nth-child(even) {
+    align-self: center;
+    transform: translateX(3%) rotate(.8deg);
+  }
+  .exp-card.active {
+    transform: translateX(0) rotate(0deg) scale(1.04);
+  }
+
+  /* ── ABOUT: more top padding, smaller body text, full-width portrait ── */
+  .about-inner {
+    grid-template-columns: 1fr;
+    padding: 3rem var(--pad) 3.5rem;
+    gap: 1.2rem;
+  }
+  h2.about-hl { font-size: clamp(1.9rem,7vw,2.8rem); }
+  .about-body {
+    max-width: 100%;
+    font-size: clamp(.78rem,3.2vw,.88rem);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+  .portrait-wrap { justify-content: flex-start; }
+  .portrait {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 18px;
+  }
+  .portrait img { object-position: center center; }
+  .about-avail { grid-column: auto; padding-top: 1.2rem; padding-bottom: 0; }
+
+  /* ── FOOTER ── */
+  footer {
+    flex-direction: column;
+    gap: 1.2rem;
+    text-align: center;
+    padding: 2rem var(--pad);
+  }
+  .foot-links { gap: 1.2rem; }
+}
+</style>
+</head>
+<body>
+
+<nav id="sitenav">
+  <ul class="nav-pill">
+    <li><a href="projekt.html">Projekt</a></li>
+    <li><a href="#exp">Erfarenhet</a></li>
+    <li><a href="#about">Om mig</a></li>
+    <li><a href="mailto:hej.isalindholm@gmail.com" class="nav-cta">Hör av dig</a></li>
+  </ul>
+</nav>
+<!-- Mobile hamburger -->
+<button class="ham-btn" id="hamBtn" aria-label="Meny">
+  <span></span><span></span><span></span>
+</button>
+<div class="mob-menu" id="mobMenu">
+  <a href="projekt.html" class="mob-link">Projekt</a>
+  <a href="#exp" class="mob-link">Erfarenhet</a>
+  <a href="#about" class="mob-link">Om mig</a>
+  <a href="mailto:hej.isalindholm@gmail.com" class="mob-cta mob-link">Hör av dig</a>
+</div>
+
+<div class="hero-frame">
+<section class="hero">
+  <div class="hero-bg"></div>
+  <svg class="deco-star deco-star-1" viewBox="0 0 24 24"><path d="M12 0L13.8 10.2L24 12L13.8 13.8L12 24L10.2 13.8L0 12L10.2 10.2Z"/></svg>
+  <svg class="deco-star deco-star-2" viewBox="0 0 24 24"><path d="M12 0L13.8 10.2L24 12L13.8 13.8L12 24L10.2 13.8L0 12L10.2 10.2Z"/></svg>
+  <svg class="deco-star deco-star-3" viewBox="0 0 24 24"><path d="M12 0L13.8 10.2L24 12L13.8 13.8L12 24L10.2 13.8L0 12L10.2 10.2Z"/></svg>
+  <svg class="deco-star deco-star-4" viewBox="0 0 24 24"><path d="M12 0L13.8 10.2L24 12L13.8 13.8L12 24L10.2 13.8L0 12L10.2 10.2Z"/></svg>
+  <svg class="deco-star deco-star-5" viewBox="0 0 24 24"><path d="M12 0L13.8 10.2L24 12L13.8 13.8L12 24L10.2 13.8L0 12L10.2 10.2Z"/></svg>
+  <video class="hero-gif" id="heroVid" autoplay loop muted playsinline></video>
+  <script>
+    (function(){
+      var v = document.getElementById('heroVid');
+      v.src = window.innerWidth <= 768 ? 'showreel_mobil.mp4' : 'showreel.mp4';
+    })();
+  </script>
+  <div class="hero-overlay"></div>
+  <div class="hero-bottom">
+    <div class="hero-logo"><img src="logo.svg" alt="Isa Lindholm"></div>
+</section>
+<div class="hero-cover"></div>
+</div><!-- /.hero-frame -->
+
+<div class="page-wrap">
+<div class="work-frame panel">
+<section class="work-panel" id="work">
+  <div class="work-header reveal">
+    <h2 class="work-title reveal">Projekt jag är<br>lite extra stolt över.</h2>
+  </div>
+  <div class="marquee-track">
+    <div class="marquee-inner">
+      <a href="projekt_sida.html?id=tsbn" class="pcard" data-pcard><div class="pcard-img"><video class="pcard-thumb" preload="none" src="Framsidor/TSBN.mp4" autoplay loop muted playsinline></video></div></a>
+      <a href="projekt_sida.html?id=dino" class="pcard" data-pcard><div class="pcard-img"><video class="pcard-thumb" preload="none" src="Framsidor/dino.mp4" autoplay loop muted playsinline></video></div></a>
+      <a href="projekt_sida.html?id=hoppas" class="pcard" data-pcard><div class="pcard-img"><video class="pcard-thumb" preload="none" src="Framsidor/hoppas.mp4" autoplay loop muted playsinline></video></div></a>
+      <a href="projekt_sida.html?id=grafisk" class="pcard" data-pcard><div class="pcard-img"><img class="pcard-thumb" src="Framsidor/Karlekssprak.webp" alt="Kärleksspråken i naturen" decoding="async"></div></a>
+      <a href="projekt_sida.html?id=simmare" class="pcard" data-pcard><div class="pcard-img"><video class="pcard-thumb" preload="none" src="Framsidor/simmare.mp4" autoplay loop muted playsinline></video></div></a>
+      <a href="projekt_sida.html?id=kunskaps" class="pcard" data-pcard><div class="pcard-img"><video class="pcard-thumb" preload="none" src="Framsidor/kunskap.mp4" autoplay loop muted playsinline></video></div></a>
+      <a href="projekt_sida.html?id=fraga" class="pcard" data-pcard><div class="pcard-img"><video class="pcard-thumb" preload="none" src="Framsidor/FN.mp4" autoplay loop muted playsinline></video></div></a>
+      <a href="projekt_sida.html?id=tsbn" class="pcard" aria-hidden="true"><div class="pcard-img"><video class="pcard-thumb" preload="none" src="Framsidor/TSBN.mp4" autoplay loop muted playsinline></video></div></a>
+      <a href="projekt_sida.html?id=dino" class="pcard" aria-hidden="true"><div class="pcard-img"><video class="pcard-thumb" preload="none" src="Framsidor/dino.mp4" autoplay loop muted playsinline></video></div></a>
+      <a href="projekt_sida.html?id=hoppas" class="pcard" aria-hidden="true"><div class="pcard-img"><video class="pcard-thumb" preload="none" src="Framsidor/hoppas.mp4" autoplay loop muted playsinline></video></div></a>
+      <a href="projekt_sida.html?id=grafisk" class="pcard" aria-hidden="true"><div class="pcard-img"><img class="pcard-thumb" src="Framsidor/Karlekssprak.webp" alt="" loading="lazy" decoding="async"></div></a>
+      <a href="projekt_sida.html?id=simmare" class="pcard" aria-hidden="true"><div class="pcard-img"><video class="pcard-thumb" preload="none" src="Framsidor/simmare.mp4" autoplay loop muted playsinline></video></div></a>
+      <a href="projekt_sida.html?id=kunskaps" class="pcard" aria-hidden="true"><div class="pcard-img"><video class="pcard-thumb" preload="none" src="Framsidor/kunskap.mp4" autoplay loop muted playsinline></video></div></a>
+      <a href="projekt_sida.html?id=fraga" class="pcard" aria-hidden="true"><div class="pcard-img"><video class="pcard-thumb" preload="none" src="Framsidor/FN.mp4" autoplay loop muted playsinline></video></div></a>
+    </div>
+  </div>
+  <div class="view-all-wrap reveal"><a href="projekt.html" class="view-all">Se alla →</a></div>
+</section>
+<div class="section-cover" style="--cover-bg:#fff"></div>
+</div><!-- /.work-frame -->
+
+<section class="panel exp-panel" id="exp">
+  <div class="exp-layout">
+    <div class="exp-left">
+      <span class="exp-eyebrow reveal">Erfarenhet</span>
+      <h2 class="exp-hl reveal reveal-d1"><span style="white-space:nowrap">Vart har jag</span><br><em style="white-space:nowrap">tagit vägen?</em></h2>
+      <p class="exp-sub reveal reveal-d2">Sociala medier, animation, content och grafisk design inom kultur, teknik och utbildning, och lite däremellan.</p>
+      <div class="btns reveal reveal-d3">
+        <a href="Isa_CV.pdf" target="_blank" rel="noopener" class="btn btn-cv">Ladda ner CV ↓</a>
+        <a href="#" class="btn btn-cover">Personligt brev →</a>
+      </div>
+    </div>
+    <div class="exp-right">
+      <div class="exp-card ec-1" data-card>
+        <span class="exp-chip">2025 – nu</span>
+        <p class="exp-company">Naturhistoriska riksmuseet</p>
+        <p class="exp-desc">Ansvarar självständigt för hela innehållskedjan på Instagram och TikTok, från idé och research till inspelning, redigering och publicering. Hittills: 74 videos, 2,7 miljoner visningar och 30 000 delningar.</p>
+        <p class="exp-meta">Social media manager – konsult · Frilans</p>
+      </div>
+      <div class="exp-card ec-2" data-card>
+        <span class="exp-chip">2021 – 2022</span>
+        <p class="exp-company">Frilansprojekt</p>
+        <p class="exp-desc">Frilansprojekt inom motion design och grafisk design. Bland annat intro- och countdownanimationer för Uppsala Life, samt illustrationer för systemintegrationsföretaget Engin.</p>
+        <p class="exp-meta">Frilansuppdrag · Grafisk design &amp; animation</p>
+      </div>
+      <div class="exp-card ec-3" data-card>
+        <span class="exp-chip">2024 – 2025</span>
+        <p class="exp-company">Hyper Island</p>
+        <p class="exp-desc">Studerade Motion Creative på Hyper Island i Stockholm — djupare in i animation, rörlig kommunikation och konceptutveckling. Projektbaserat och hands-on hela vägen.</p>
+        <p class="exp-meta">Motion Creative-student · Heltid</p>
+      </div>
+      <div class="exp-card ec-4" data-card>
+        <span class="exp-chip">2020 – 2023</span>
+        <p class="exp-company">Linköpings universitet</p>
+        <p class="exp-desc">Kandidatexamen i grafisk design och kommunikation. Tre år av typografi, identitet, formgivning och kommunikationsteori.</p>
+        <p class="exp-meta">Grafisk design &amp; kommunikation · Kandidatexamen</p>
+      </div>
+    </div>
+  </div>
+  <div class="section-cover" style="--cover-bg:#4b7cbc"></div>
+</section>
+
+<section class="panel about-panel" id="about">
+  <div class="about-inner">
+    <div class="reveal">
+      <span class="about-eyebrow">Om mig</span>
+      <h2 class="about-hl">Gul och<br><em>nyfiken.</em></h2>
+      <p class="about-body">Jag har ritat så länge jag kan minnas. Det började på förskolan, där jag tog tatueringsbeställningar från kompisarna med tuschpennor. Den karriären tog en annan vändning, men nyfikenheten och känslan för form har följt med hela vägen till animation, video och grafisk design.<br><br>Någon sa en gång att jag är den gulaste personen de träffat. Inte bokstavligt, utan gul i bemärkelsen utåtriktad, kreativ och nyfiken. Det stämmer nog — ena veckan nördar jag ner mig i sena 1800-talets historia, nästa är det de senaste dinosauriefynden, och till slut landar jag alltid i vad som händer på sociala medier just nu.<br><br>Jag jobbar i skärningspunkten mellan design och kommunikation och trivs som bäst när projektet är lite svårt, målgruppen är bred och ingen riktigt vet hur det ska bli från början.</p>
+    </div>
+    <div class="reveal reveal-d2 portrait-wrap">
+      <div class="portrait"><img src="Bild_pa_mig2.webp" alt="Isa Lindholm"></div>
+    </div>
+    <div class="avail about-avail"><span class="avail-dot"></span> Öppen för uppdrag</div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-links">
+    <a href="https://www.linkedin.com/in/isa-lindholm-9b4313180/" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="mailto:hej.isalindholm@gmail.com">hej.isalindholm@gmail.com</a>
+  </div>
+  <span class="foot-copy">© 2026</span>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+const nav = document.getElementById('sitenav');
+window.addEventListener('scroll', function() {
+  nav.classList.toggle('scrolled', window.scrollY > window.innerHeight * 0.75);
+}, {passive:true});
+
+const revObs = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) { if(e.isIntersecting) e.target.classList.add('in'); });
+}, {threshold:0.05, rootMargin:"0px 0px -60px 0px"});
+document.querySelectorAll('.reveal').forEach(function(el) { revObs.observe(el); });
+
+const cards = document.querySelectorAll('[data-card]');
+function updateActive() {
+  const mid = window.innerHeight / 2;
+  let closest = null, dist = Infinity;
+  cards.forEach(function(c) {
+    const r = c.getBoundingClientRect();
+    const d = Math.abs(r.top + r.height / 2 - mid);
+    if(d < dist) { dist = d; closest = c; }
+  });
+  cards.forEach(function(c) { c.classList.remove('active'); });
+  if(closest) closest.classList.add('active');
+}
+if(cards.length) cards[0].classList.add('active');
+window.addEventListener('scroll', updateActive, {passive:true});
+updateActive();
+
+
+// Marquee rullar automatiskt via CSS-animation (se @keyframes marquee-scroll)
+
+// Scroll cover animation — bara när scroll faktiskt rört sig
+(function() {
+  var heroFrame = document.querySelector('.hero-frame');
+  var heroCover = document.querySelector('.hero-cover');
+  var workFrame = document.querySelector('.work-frame');
+  var workCover = document.querySelector('.work-frame > .section-cover');
+  var expPanel  = document.querySelector('.exp-panel');
+  var expCover  = document.querySelector('.exp-panel .section-cover');
+
+  var lastScrollY = -1;
+  var ticking = false;
+  var pageHidden = false;
+
+  document.addEventListener('visibilitychange', function() { pageHidden = document.hidden; });
+
+  function update() {
+    ticking = false;
+    if (pageHidden) return;
+    var vh  = window.innerHeight;
+    var mob = window.innerWidth < 768;
+    var p, trig, r;
+
+    if (heroFrame && heroCover) {
+      r = heroFrame.getBoundingClientRect();
+      var scrolled = Math.max(0, -r.top);
+      var h = heroFrame.offsetHeight;
+      p = Math.min(1, Math.pow(scrolled / (h * (mob ? 0.8 : 0.75)), 1.8));
+      heroCover.style.transform = 'translateY(' + ((1-p)*100) + '%)';
+    }
+
+    if (workFrame && workCover) {
+      r = workFrame.getBoundingClientRect();
+      var h = workFrame.offsetHeight;
+      var scrolled = Math.max(0, -r.top);
+      p = Math.min(1, Math.pow(scrolled / (h * 0.75), 1.8));
+      workCover.style.transform = 'translateY(' + ((1-p)*100) + '%)';
+    }
+
+    if (expPanel && expCover) {
+      r = expPanel.getBoundingClientRect();
+      var h = expPanel.offsetHeight;
+      var scrolled = Math.max(0, -r.top);
+      var lastCard = expPanel.querySelector('[data-card]:last-child');
+      if (lastCard) {
+        var lr = lastCard.getBoundingClientRect();
+        trig = lr.bottom - vh * 0.62;
+        p = trig >= 0 ? 0 : Math.min(1, Math.pow(-trig / (vh * 0.42), 2.2));
+      } else {
+        var delay = Math.max(0, h - vh * 1.15);
+        p = scrolled < delay ? 0 : Math.min(1, Math.pow((scrolled - delay) / (vh * 0.55), 1.8));
+      }
+      expCover.style.transform = 'translateY(' + ((1-p)*100) + '%)';
+    }
+  }
+
+  window.addEventListener('scroll', function() {
+    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  }, { passive: true });
+
+  update(); // kör en gång vid start
+})();
+
+// Mobile hamburger
+const hamBtn = document.getElementById('hamBtn');
+const mobMenu = document.getElementById('mobMenu');
+if (hamBtn && mobMenu) {
+  hamBtn.addEventListener('click', function() {
+    hamBtn.classList.toggle('open');
+    mobMenu.classList.toggle('open');
+  });
+  mobMenu.querySelectorAll('.mob-link').forEach(function(a) {
+    a.addEventListener('click', function() {
+      hamBtn.classList.remove('open');
+      mobMenu.classList.remove('open');
+    });
+  });
+  // Close on click outside the links/button
+  mobMenu.addEventListener('click', function(e) {
+    if (!e.target.closest('a')) {
+      hamBtn.classList.remove('open');
+      mobMenu.classList.remove('open');
+    }
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      hamBtn.classList.remove('open');
+      mobMenu.classList.remove('open');
+    }
+  });
+}
+</script>
+
+</div>
+</body>
+</html>

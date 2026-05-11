@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title id="page-title">Projekt – Isa Lindholm</title>
+<link rel="icon" href="thumbnail.png" type="image/png">
+<link rel="stylesheet" href="https://use.typekit.net/bzd2orb.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Neue+Montreal:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+  :root {
+    --blue: #4b7cbc; --pink: #e6bcbc;
+    --cw: 860px;
+  }
+  body{font-family:var(--nm);background:var(--white);color:var(--dark)}
+  .nav-cta:hover{background:var(--blue)}
+
+  /* HERO */
+  .proj-hero{width:100%;height:75vh;overflow:hidden;background:#111}
+  .proj-hero picture{width:100%;height:100%;display:block}
+  .proj-hero-media{width:100%;height:100%;object-fit:cover;display:block}
+
+  /* VIDEO MODAL */
+  .vid-modal{display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.88);align-items:center;justify-content:center}
+  .vid-modal.open{display:flex}
+  .vid-modal-inner{position:relative;max-height:90vh;max-width:90vw}
+  .vid-modal-inner video{display:block;max-height:90vh;max-width:90vw;border-radius:8px}
+  .vid-modal-close{position:absolute;top:-14px;right:-14px;width:32px;height:32px;border-radius:50%;background:#fff;border:none;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;line-height:1;color:#111;z-index:10}
+
+  /* ── SHARED CONTENT WIDTH ──
+     All sections use the same formula: max-width:860px, margin:0 auto,
+     padding-inline:var(--pad). box-sizing:border-box (global *) means
+     actual inner width = min(viewport, 860px) − 2×var(--pad) — identical
+     for every section. */
+  :root { --cw: 860px; }
+  .proj-content,
+  .gallery-featured,
+  .gallery-grid,
+  .insta-section { max-width:var(--cw); margin:0 auto; padding-left:var(--pad); padding-right:var(--pad); }
+
+  /* CONTENT */
+  .proj-content{padding-top:clamp(1.8rem,4vw,3rem);padding-bottom:5rem}
+  .proj-title{font-family:var(--arb);font-size:clamp(2.4rem,6vw,4.8rem);font-weight:700;line-height:.95;letter-spacing:-.03em;color:var(--dark);margin-bottom:1rem}
+  .proj-tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:3rem}
+  .proj-tag{display:inline-block;padding:6px 15px;border-radius:100px;font-size:.64rem;font-weight:500;letter-spacing:.04em}
+  .proj-body{font-size:1.05rem;line-height:1.85;color:rgba(0,0,0,.58)}
+  .proj-body p+p{margin-top:1.3rem}
+
+  /* GALLERY */
+  .proj-gallery{padding-bottom:1.5rem}
+  .gallery-featured{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;padding-bottom:2rem;align-items:stretch}
+  .gallery-featured .media-item{border-radius:14px;overflow:hidden;background:#fff}
+  .gallery-featured .media-item img{width:100%;height:auto;display:block}
+  .gallery-featured .media-item video{width:100%;height:auto;display:block}
+  .gallery-featured--multi .media-item img,.gallery-featured--multi .media-item video{width:100%;height:auto;display:block}
+  .gallery-grid{display:grid;gap:10px;padding-bottom:4rem;grid-auto-rows:220px}
+  .gallery-grid .media-item{border-radius:10px;overflow:hidden;background:#fff}
+  .gallery-grid .media-item img,
+  .gallery-grid .media-item video{width:100%;height:100%;object-fit:contain;display:block}
+
+  /* INSTAGRAM CAROUSEL */
+  .insta-section{padding-bottom:5rem}
+  .insta-header-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.4rem}
+  .insta-heading{font-family:var(--arb);font-size:clamp(1.2rem,3vw,1.8rem);font-weight:700;letter-spacing:-.02em;color:var(--dark)}
+  .insta-nav-btns{display:flex;gap:.5rem}
+  .insta-btn{width:40px;height:40px;border-radius:50%;border:1.5px solid rgba(0,0,0,.15);background:none;cursor:pointer;font-size:1rem;color:var(--dark);display:flex;align-items:center;justify-content:center;transition:all .2s}
+  .insta-btn:hover{border-color:var(--dark);background:var(--dark);color:#fff}
+  .insta-btn:disabled{opacity:.25;cursor:default;pointer-events:none}
+  .insta-viewport{overflow:hidden}
+  .insta-track{display:flex;transition:transform .45s cubic-bezier(.4,0,.2,1)}
+  .insta-slide{min-width:100%;display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+  .insta-embed-wrap{border-radius:12px;overflow:hidden;background:#fafafa;min-height:200px;display:flex;flex-direction:column}
+  .insta-embed-wrap blockquote{margin:0!important;flex:1}
+  .insta-embed-wrap iframe{width:100%!important}
+  /* Fallback-kort när embed.js inte laddar (HTTP) */
+  .insta-card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;min-height:200px;padding:1.5rem;background:linear-gradient(135deg,#405de6,#5851db,#833ab4,#c13584,#e1306c,#fd1d1d);border-radius:12px;text-align:center}
+  .insta-card svg{opacity:.9}
+  .insta-card-link{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.18);color:#fff;border:1px solid rgba(255,255,255,.4);padding:9px 20px;border-radius:100px;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;font-family:var(--nm);transition:background .2s}
+  .insta-card-link:hover{background:rgba(255,255,255,.32)}
+  .tiktok-card{background:#000}
+  .tiktok-card svg{opacity:.9}
+  /* Thumbnail-kort med omslagsbild */
+  .insta-thumb-card{display:block;position:relative;border-radius:12px;overflow:hidden;text-decoration:none;aspect-ratio:4/5;background:#111}
+  .insta-thumb-img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease}
+  .insta-thumb-card:hover .insta-thumb-img{transform:scale(1.04)}
+  .insta-thumb-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.65) 0%,transparent 55%);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:1.2rem;gap:.5rem;color:#fff;text-align:center}
+  .insta-thumb-overlay svg{margin-bottom:.2rem}
+  .insta-thumb-overlay span{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;font-family:var(--nm);opacity:.9}
+  .insta-dots{display:flex;gap:6px;justify-content:center;margin-top:1rem}
+  .insta-dot{width:6px;height:6px;border-radius:50%;background:rgba(0,0,0,.15);border:none;padding:0;cursor:pointer;transition:background .2s}
+  .insta-dot.active{background:var(--dark)}
+
+  /* FOOTER / PROJECT NAV */
+  .proj-footer{background:#b7d6ed;padding:clamp(2.5rem,5vw,4rem) 0;display:flex;flex-direction:column;align-items:center;gap:2rem}
+  .proj-footer-nav{display:grid;grid-template-columns:1fr 1fr;gap:clamp(8rem,40vw,40rem);width:100%;padding:0 var(--pad)}
+  #proj-prev-wrap{display:flex;justify-content:flex-end;align-items:center}
+  #proj-next-wrap{display:flex;justify-content:flex-start;align-items:center}
+  .proj-footer-copy{font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;color:#842121;opacity:.4;text-align:center}
+  /* Delade stilar för båda knappar */
+  .proj-prev,.proj-next{display:flex;align-items:center;gap:1rem;text-decoration:none;color:#842121;transition:opacity .25s}
+  .proj-prev:hover,.proj-next:hover{opacity:.65}
+  .proj-prev-thumb,.proj-next-thumb{width:64px;height:64px;border-radius:10px;overflow:hidden;background:rgba(132,33,33,.1);flex-shrink:0}
+  .proj-prev-thumb img,.proj-next-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+  .proj-prev-meta,.proj-next-meta{display:flex;flex-direction:column;gap:.3rem}
+  .proj-prev-eyebrow,.proj-next-eyebrow{font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;opacity:.45;display:block}
+  .proj-prev-title,.proj-next-title{font-family:var(--arb);font-size:clamp(1.1rem,2.5vw,1.7rem);font-weight:700;letter-spacing:-.02em;line-height:1;display:block;white-space:nowrap}
+
+  @media(max-width:768px){
+    .proj-hero{height:55vw;min-height:260px}
+    .proj-content{padding-top:clamp(2.8rem,8vw,4rem)}
+    .gallery-grid{grid-template-columns:repeat(2,1fr)}
+    .insta-section{padding-bottom:3rem}
+    #proj-prev-wrap{display:none}
+    .proj-footer-nav{grid-template-columns:1fr;justify-items:center}
+    #proj-next-wrap{justify-content:center;width:100%}
+    .proj-next{width:max-content}
+    .proj-next-title{font-size:clamp(1.1rem,5vw,1.5rem);white-space:nowrap}
+  }
+</style>
+</head>
+<body>
+
+<nav id="sitenav">
+  <ul class="nav-pill">
+    <li><a href="projekt.html">Projekt</a></li>
+    <li><a href="isa_lindholm_v70.html#exp">Erfarenhet</a></li>
+    <li><a href="isa_lindholm_v70.html#about">Om mig</a></li>
+    <li><a href="mailto:hej.isalindholm@gmail.com" class="nav-cta">Hör av dig</a></li>
+  </ul>
+</nav>
+<button class="ham-btn" id="hamBtn" aria-label="Meny"><span></span><span></span><span></span></button>
+<div class="mob-menu" id="mobMenu">
+  <a href="projekt.html" class="mob-link">Projekt</a>
+  <a href="isa_lindholm_v70.html#exp" class="mob-link">Erfarenhet</a>
+  <a href="isa_lindholm_v70.html#about" class="mob-link">Om mig</a>
+  <a href="mailto:hej.isalindholm@gmail.com" class="mob-link mob-cta">Hör av dig</a>
+</div>
+
+<!-- Hero injected by JS -->
+<div id="proj-hero-wrap" class="proj-hero"></div>
+
+<!-- Portrait video modal -->
+<div class="vid-modal" id="vid-modal">
+  <div class="vid-modal-inner" id="vid-modal-inner">
+    <button class="vid-modal-close" id="vid-modal-close">✕</button>
+  </div>
+</div>
+
+<div class="proj-content">
+  <h1 class="proj-title" id="proj-title"></h1>
+  <div class="proj-tags" id="proj-tags"></div>
+  <div class="proj-body" id="proj-body"></div>
+</div>
+
+<!-- Gallery injected by JS -->
+<div class="proj-gallery" id="proj-gallery" style="display:none"></div>
+
+<!-- Instagram carousel injected by JS -->
+<div class="insta-section" id="insta-section" style="display:none">
+  <div class="insta-header-row">
+    <h3 class="insta-heading">Utvalda exempel</h3>
+    <div class="insta-nav-btns">
+      <button class="insta-btn" id="insta-prev" aria-label="Föregående">&#8592;</button>
+      <button class="insta-btn" id="insta-next" aria-label="Nästa">&#8594;</button>
+    </div>
+  </div>
+  <div class="insta-viewport">
+    <div class="insta-track" id="insta-track"></div>
+  </div>
+  <div class="insta-dots" id="insta-dots"></div>
+</div>
+
+<footer class="proj-footer" id="proj-footer">
+  <div class="proj-footer-nav">
+    <div id="proj-prev-wrap"></div>
+    <div id="proj-next-wrap"></div>
+  </div>
+  <span class="proj-footer-copy">© Isa Lindholm 2026</span>
+</footer>
+
+<script>
+// ─────────────────────────────────────────────
+// PROJECT DATA
+// ─────────────────────────────────────────────
+var PROJECTS = {
+
+  tsbn: {
+    title: 'Tre ska bli noll',
+    hero: { type: 'video', src: 'Undersidor/Tre%20ska%20bli%20noll/Hero_video.mp4', poster: 'Undersidor/Tre%20ska%20bli%20noll/poster_tsbn.jpg' },
+    tags: [
+      { label: 'Animation',       bg: '#3c7c6b', fg: '#f3ccce' },
+      { label: 'Illustration',    bg: '#4b7cbc', fg: '#fce084' },
+      { label: 'Karaktärsdesign', bg: '#f3ccce', fg: '#3c7c6b' }
+    ],
+    body: [
+      'Treskablinoll är en ideell organisation som arbetar för att förebygga och utbilda om sexuella övergrepp mot barn. Vi fick i uppdrag att skapa en 30 sekunder lång animation till lanseringen av Grundskolebrevet, ett material framtaget för att hjälpa lärare att närma sig ämnet i klassrummet.',
+      'Animationens mål är att, utan att peka finger, lyfta fram värdet av att skapa ett tryggt utrymme där barn kan sätta ord på sina upplevelser.',
+      'Att närma sig ett sådant här ämne grafiskt är en balansgång. Det är lätt att storytelling och formspråk glider in i stereotyper, vilket kan få motsatt effekt. Vi utgick från organisationens grafiska profil och jobbade hårt för att hålla ett uttryck som kändes äkta snarare än dramatiserat. Det är ingen snyfthistoria utan en påminnelse om verkligheten.',
+      'Jag var illustratör i projektet, med ett stort ansvar för karaktärsdesign: att i samarbete med gruppen och utifrån art directionens riktlinjer forma karaktärerna med ett konsekvent uttryck genom hela filmen. Sedan animerade var och en sin del, och jag fick animera läraren: en walking cycle kombinerad med en rörelse från profil till att vända sig mot kameran och böja sig ner mot ett barn. Något jag aldrig hade gjort tidigare och en av de roligare utmaningarna i projektet.',
+      'Isa Lindholm/Illustratör, Soile Aho/Art Director, Yana Yun Lin/Motion Graphics & Composition, Pany Ghaderi/Producer & Production Manager, Leah Rudolphie/Animation Lead, Albin Nilsson/Creative & Sound.'
+    ],
+    gallery: [
+      { type: 'img', src: 'Undersidor/Tre%20ska%20bli%20noll/arbete.gif',       featured: true },
+      { type: 'img', src: 'Undersidor/Tre%20ska%20bli%20noll/walkcycle_1.gif',  featured: true },
+      { type: 'img', src: 'Undersidor/Tre%20ska%20bli%20noll/Teacher_front.png' },
+      { type: 'img', src: 'Undersidor/Tre%20ska%20bli%20noll/kid_proflie.png' },
+      { type: 'img', src: 'Undersidor/Tre%20ska%20bli%20noll/profile.png' },
+      { type: 'img', src: 'Undersidor/Tre%20ska%20bli%20noll/45.png' }
+    ],
+    instagram: null
+  },
+
+  kunskaps: {
+    title: 'Kunskapsinlägg',
+    hero: { type: 'video', src: 'Undersidor/Kunskapsinlagg/Hero.mp4', autoplay: true },
+    tags: [
+      { label: 'Animation',     bg: '#3c7c6b', fg: '#f3ccce' },
+      { label: 'Sociala medier',bg: '#fce084', fg: '#4b7cbc' },
+      { label: 'Motion design', bg: '#d4e8f7', fg: '#8a2747' },
+      { label: 'Produktion',    bg: '#c4693a', fg: '#fdeee8' }
+    ],
+    body: [
+      'Naturhistoriska riksmuseet har några av Sveriges främsta experter inom biologi, paleontologi och naturhistoria under samma tak. Min uppgift är att ta den kunskapen och göra den tillgänglig, engagerande och rolig att konsumera på TikTok och Instagram.',
+      'Jag ansvarar för hela kedjan själv, från idé till publicering. Det kan innebära att jag anordnar spånmöten med pedagoger, biologer och andra experter, eller bollar och har möte med forskare vars arbete skulle fungera bra på sociala medier. En stor del av jobbet är att ta tung fakta och hitta ett narrativ, skala av och hitta det som verkligen väcker nyfikenhet. Biologi är superintressant för mig och mina kollegor, men vi måste ta hänsyn till att det inte är det för alla.',
+      'Lika viktigt som faktan är formatet. En video utan en stark hook får aldrig en chans, oavsett hur bra innehållet är. Jag jobbar mycket med att hålla contentet varierat och i rörelse, aldrig statiskt. Det innebär täta klipp, grafik och animationer som visualiserar det som sägs men också är roliga att titta på. Jag arbetar nästan uteslutande med bilder som jag redigerar, sätter samman i scener och animerar. En viktig del är också att bjuda in publiken till diskussion och interaktion, att skapa ett content som connectar med målgruppen snarare än bara informerar.',
+      'Att balansera plattformens logik med faktamässig korrekthet och museets trovärdighet som kunskapskälla är det viktigaste i mitt arbete. Min trendkänslighet det kan jag tacka att jag alltid varit chronically online för. Det började med att titta på musikvideor på YouTube, som sedan blev att följa de första riktiga youtubarna växa fram, bli inspirerad och testa på att starta en egen kanal och mecka i iMovie. Sedan starta en Instagram för min egen hund och lära känna ett helt nytt community. Och självklart vara på TikTok så tidigt att det fortfarande hette Musical.ly. Den resan har gett mig en intuitiv känsla för hur sociala medier förändras och vad som funkar och varför. Jag analyserar kontinuerligt resultat för att förstå mönster och lära mig nytt, något jag tror aldrig tar slut.'
+    ],
+    gallery: null,
+    instagram: [
+      { url: 'https://www.instagram.com/naturhistoriska/reel/DWjnJVhAdIq/', thumb: 'Undersidor/Kunskapsinlagg/Genvariationer.png',     label: 'Genvariationer' },
+      { url: 'https://www.instagram.com/naturhistoriska/reel/DUa_TGEDSxM/', thumb: 'Undersidor/Kunskapsinlagg/kroppsproportioner.png', label: 'Kroppsproportioner' },
+      { url: 'https://www.tiktok.com/@naturhistoriska/video/7566329388682235158', thumb: 'Undersidor/Kunskapsinlagg/Dinos.png',        label: 'Dinosaurier' },
+      { url: 'https://www.instagram.com/p/DP6iC_ICIWj/',                    thumb: 'Undersidor/Kunskapsinlagg/Lov.png',                label: 'Lov' }
+    ]
+  },
+
+  fraga: {
+    title: 'Fråga naturhistoriska',
+    hero: { type: 'video', src: 'Undersidor/Fraga-naturhistoriska/Hero.mp4', autoplay: true },
+    tags: [
+      { label: 'Animation',     bg: '#3c7c6b', fg: '#f3ccce' },
+      { label: 'Sociala medier',bg: '#fce084', fg: '#4b7cbc' },
+      { label: 'Motion design', bg: '#d4e8f7', fg: '#8a2747' },
+      { label: 'Art direction', bg: '#f3ccce', fg: '#3c7c6b' },
+      { label: 'Produktion',    bg: '#c4693a', fg: '#fdeee8' }
+    ],
+    body: [
+      'Naturhistoriska riksmuseet är mer än ett museum, här bedrivs aktiv forskning av några av Sveriges mest kunniga experter. Fråga Naturhistoriska är ett format där vi lyfter fram dem och låter våra följare vara med och styra.',
+      'Konceptet är enkelt: följarna skickar in sina frågor, en forskare eller expert på museet svarar. Hittills har vi haft Ludvig Palmheden, biolog, och Benjamin P. Kear, paleobiolog. Det är ett sätt att visa det forskande museet, skapa genuint engagerande content och samtidigt ge följarna en känsla av att vara med och påverka.',
+      'Det här är en större produktion än mina vanliga kunskapsinlägg och en jag projektleder från start till mål, inklusive att ta fram formatets grafiska identitet med logga, grafiska övergångar och namnbrickor. Jag ansvarar för att skapa inlägg där följarna kan skicka in sina frågor, sköter all kontakt och planering med experten, bokar museets escape room som inspelningsmiljö och riggar upp tillsammans med en kollega med rekvisita och ljus. Under inspelningen har jag det övergripande ansvaret på plats. Därefter tar jag hand om redigering, efterproduktion och publicering.'
+    ],
+    gallery: null,
+    instagram: [
+      { url: 'https://www.instagram.com/naturhistoriska/reel/DW6rm76Egqj/', thumb: 'Undersidor/Fraga-naturhistoriska/Ben.png',    label: 'Benjamin P. Kear – paleobiolog' },
+      { url: 'https://www.instagram.com/naturhistoriska/reel/DTvPU6HiI1f/', thumb: 'Undersidor/Fraga-naturhistoriska/Ludvig.png', label: 'Ludvig Palmheden – biolog' }
+    ]
+  },
+
+  simmare: {
+    title: 'Abort – steg för steg',
+    hero: { type: 'video', src: 'Undersidor/Abort-steg-for-steg/Hero_video.mp4' },
+    tags: [
+      { label: 'Animation',     bg: '#3c7c6b', fg: '#f3ccce' },
+      { label: 'Motion design', bg: '#d4e8f7', fg: '#8a2747' },
+      { label: 'Illustration',  bg: '#4b7cbc', fg: '#fce084' },
+      { label: 'Sociala medier',bg: '#fce084', fg: '#4b7cbc' }
+    ],
+    body: [
+      'Hälften av unga i Sverige vet inte att beslutet att genomgå en abort är deras eget att fatta.',
+      'Hela arbetet började med en tes om att kunskapen om abortprocessen hos unga är skrämmande låg. Något som sedan bekräftades av vår kvalitativa studie och underlag vi fick ta del av från RFSU.',
+      'Kampanjen är en påbyggnad av det arbetet. En animerad sociala medier-kampanj var något vi redan då ville göra men aldrig hann med, så därför valde jag att göra det som min sista uppgift på Hyper island.',
+      'Idén bygger på att möta målgruppen där de faktiskt är, både plattformsmässigt och känslomässigt. Kampanjen bryter vanliga myter och normaliserar frågor som många bär på men inte vågar ställa. Det bärande budskapet: oavsett vilket val du gör finns det stöd att få.',
+      'En central del av arbetet var att hitta rätt tonläge grafiskt. Tungt ämne behöver inte betyda dystert uttryck, men för glatt riskerar att trivialisera. Illustrationerna och formspråket är framtagna för att skapa igenkänning hos målgruppen genom vardagliga situationer, snarare än att upplevas som informationsmaterial uppifrån.',
+      'Jag ansvarade för hela produktionen: manus, grafisk formgivning och animation.'
+    ],
+    gallery: [
+      { type: 'video', src: 'Undersidor/Abort-steg-for-steg/Isa_video_2%20(1).mp4', featured: true },
+      { type: 'img',   src: 'Undersidor/Abort-steg-for-steg/karaktar-02.png' },
+      { type: 'img',   src: 'Undersidor/Abort-steg-for-steg/karaktar2.png' },
+      { type: 'img',   src: 'Undersidor/Abort-steg-for-steg/fnkrebfk.png' },
+      { type: 'img',   src: 'Undersidor/Abort-steg-for-steg/6_00000.png' }
+    ],
+    instagram: null
+  },
+
+  dino: {
+    title: 'Jurrasic Park – Nightfall',
+    hero: { type: 'video', src: 'Undersidor/Jurrasic%20Park%20-%20Nightfall/Hero_video.mp4', poster: 'Undersidor/Jurrasic%20Park%20-%20Nightfall/poster_dino.jpg' },
+    tags: [
+      { label: 'Animation',    bg: '#3c7c6b', fg: '#f3ccce' },
+      { label: 'Motion design',bg: '#d4e8f7', fg: '#8a2747' },
+      { label: 'Art direction',bg: '#f3ccce', fg: '#3c7c6b' }
+    ],
+    body: [
+      'En cinematic trailer för ett fiktivt survivalhorrorspel i Jurassic Park-franchisen. På Isla Nublar spelar du en arbetare som fastnar ensam i den mörka, täta och dinosaurieinfesterade djungeln med ett mål: överleva natten.',
+      'Spelet kombinerar en 3D-miljö med 2D-effekter, och det var den konstnärliga utmaningen vi ville utforska. Inspirerade av Smiling Friends och Spider-Man: Into the Spider-Verse ville vi experimentera med mixed media där alla levande element i animationen, förutom växterna, är gjorda i 2D för att skapa en effektfull kontrast mot den realistiska 3D-miljön. Att få två helt olika stilar och tekniker att kännas som en och samma helhet var en av de största utmaningarna i projektet.',
+      'Som art lead ansvarade jag för 2D-designen och att hålla den visuella riktningen sammanhängande genom hela produktionen. Det innebar att ta min vision och omvandla den till moodboards, referenser, guider och ett colorscript som resten av gruppen kunde arbeta utifrån. Att leda kreativt och samtidigt kommunicera tydligt nog för att andra ska kunna följa utan friktion är en helt annan utmaning än att bara skapa själv. Min inspiration för 2D-uttrycket var råa oljemålningar och Simon Stålenhags verk, som kontrast till de realistiska 3D-renderingarna.',
+      'Som 2D-animatör animerade jag dinosaurien, elden, ansiktet i spegeln och ljuset på karaktärerna. Dinosaurien och den atmosfär vi skapade tillsammans är det jag är mest nöjd med.'
+    ],
+    gridCols: 3,
+    gallery: [
+      { type: 'img', src: 'Undersidor/Jurrasic%20Park%20-%20Nightfall/color.png', featured: true },
+      { type: 'img', src: 'Undersidor/Jurrasic%20Park%20-%20Nightfall/dino_1.gif' },
+      { type: 'img', src: 'Undersidor/Jurrasic%20Park%20-%20Nightfall/ans.gif' },
+      { type: 'img', src: 'Undersidor/Jurrasic%20Park%20-%20Nightfall/eldis.gif' }
+    ],
+    instagram: null
+  },
+
+  grafisk: {
+    title: 'Grafiska inlägg',
+    hero: { type: 'img', src: 'Undersidor/Karusell/Hero_dator.webp', srcMobile: 'Undersidor/Karusell/hero_mobil.webp', fit: 'cover' },
+    tags: [
+      { label: 'Grafisk formgivning', bg: '#2d6a2d', fg: '#fce084' },
+      { label: 'Sociala medier',      bg: '#fce084', fg: '#4b7cbc' }
+    ],
+    body: [
+      'Även fast video är kärnan i mitt arbete på Naturhistoriska riksmuseet har jag på senare tid fått äran att ta ett större ansvar för kanalens grafiska inlägg och karuseller på Instagram.',
+      'Det är här min bakgrund inom grafisk formgivning verkligen får komma till sin rätt. Att få skapa något som är både vackert och informativt är något jag länge saknat, och karusellerna ger mig det utrymmet. Jag arbetar inom museets bildspråk, typsnitt och färgpalett men har spelrum att experimentera då det inte finns en satt profil specifikt för sociala medier. Utmaningen och målet är att skapa ett uttryck som tydligt går i linje med museets övriga kommunikation men ändå känns eget och särskiljer sig.'
+    ],
+    gallery: null,
+    instagram: [
+      { url: 'https://www.instagram.com/naturhistoriska/p/DXpIun8DIIY/', thumb: 'Framsidor/Karlekssprak.webp',             label: 'Kärleksspråken i naturen' },
+      { url: 'https://www.instagram.com/naturhistoriska/p/DWRsXduDQyb/', thumb: 'Undersidor/Karusell/uggla.png',           label: 'Uggla bakom museet' },
+      { url: 'https://www.instagram.com/naturhistoriska/p/DWLlAfIDarj/', thumb: 'Undersidor/Karusell/varlsvatten.png',     label: 'Världsvattendagen' },
+      { url: 'https://www.instagram.com/naturhistoriska/p/DXOa2SDkTXh/', thumb: 'Undersidor/Karusell/roliga_djurnamn.png', label: 'Roliga djurnamn' }
+    ]
+  },
+
+  hoppas: {
+    gridCols: 3,
+    title: 'Pass the ball',
+    hero: { type: 'video', src: 'Undersidor/Pass%20the%20ball/Hero_video.mp4' },
+    tags: [
+      { label: 'Animation',       bg: '#3c7c6b', fg: '#f3ccce' },
+      { label: 'Illustration',    bg: '#4b7cbc', fg: '#fce084' },
+      { label: 'Karaktärsdesign', bg: '#f3ccce', fg: '#3c7c6b' },
+      { label: '3D',              bg: '#8a2747', fg: '#d4e8f7' }
+    ],
+    body: [
+      'I kursen Sandbox fick hela klassen samarbeta kring ett gemensamt avslutningsprojekt. Reglerna satte vi upp själva: animera en boll över skärmen, och bollen kunde vara vad som helst. Mitt bidrag var en hund som hade rymt.',
+      'Idén var att ge känslan av att bollen reser genom ett multiverse och hamnar i ett konstigt, missmatchat universum där 2D och 3D lever sida vid sida. Jag ville skapa ett lekfullt uttryck och samtidigt ta tillfället att experimentera med stil och form fritt, utan en fast brief att förhålla sig till.',
+      'Det var första gången jag kombinerade 2D och 3D i samma produktion. Jag är och förblir betydligt mer hemma i 2D, men det är just i de här experimenten man lär sig mest, även om det kostar några tårar på vägen.'
+    ],
+    gallery: [
+      { type: 'img', src: 'Undersidor/Pass%20the%20ball/Isa_Lindholm_Animatic.gif', featured: true },
+      { type: 'img', src: 'Undersidor/Pass%20the%20ball/halsduk.gif' },
+      { type: 'img', src: 'Undersidor/Pass%20the%20ball/hubd.gif' },
+      { type: 'img', src: 'Undersidor/Pass%20the%20ball/tant.gif' },
+      { type: 'img', src: 'Undersidor/Pass%20the%20ball/bakgrund.png' },
+      { type: 'img', src: 'Undersidor/Pass%20the%20ball/blomma.png' },
+      { type: 'img', src: 'Undersidor/Pass%20the%20ball/hund.png' }
+    ],
+    instagram: null
+  }
+
+};
+
+// ─────────────────────────────────────────────
+// THUMBNAILS (används i scrollen och "nästa projekt")
+// ─────────────────────────────────────────────
+var THUMBS = {
+  tsbn:     'Framsidor/TSBN.mp4',
+  kunskaps: 'Framsidor/kunskap.mp4',
+  fraga:    'Framsidor/FN.mp4',
+  simmare:  'Framsidor/simmare.mp4',
+  dino:     'Framsidor/dino.mp4',
+  hoppas:   'Framsidor/hoppas.mp4',
+  grafisk:  'Framsidor/Thumbnail_projekt.webp'
+};
+
+// Global ordning — används som fallback och för att bestämma nästa projekt
+var PROJECT_ORDER = ['kunskaps', 'fraga', 'grafisk', 'simmare', 'tsbn', 'dino', 'hoppas'];
+
+function getPrevProject(currentId) {
+  var currentTags = (PROJECTS[currentId] && PROJECTS[currentId].tags || [])
+    .map(function(t){ return t.label.toLowerCase(); });
+  var idx = PROJECT_ORDER.indexOf(currentId);
+  // Rotera baklänges — projekten INNAN currentId (omvänt), sedan de efter (omvänt)
+  var rotated = PROJECT_ORDER.slice(0, idx).reverse().concat(PROJECT_ORDER.slice(idx + 1).reverse());
+  for (var i = 0; i < rotated.length; i++) {
+    var cid = rotated[i];
+    if (!PROJECTS[cid]) continue;
+    var tags = (PROJECTS[cid].tags || []).map(function(t){ return t.label.toLowerCase(); });
+    for (var j = 0; j < currentTags.length; j++) {
+      if (tags.indexOf(currentTags[j]) !== -1) return cid;
+    }
+  }
+  return rotated[0];
+}
+
+function getNextProject(currentId) {
+  var currentTags = (PROJECTS[currentId] && PROJECTS[currentId].tags || [])
+    .map(function(t){ return t.label.toLowerCase(); });
+
+  // Rotera listan så att projekten EFTER currentId kommer först, sedan de innan
+  var idx = PROJECT_ORDER.indexOf(currentId);
+  var rotated = PROJECT_ORDER.slice(idx + 1).concat(PROJECT_ORDER.slice(0, idx));
+
+  // Försök hitta ett med minst en gemensam tagg
+  for (var i = 0; i < rotated.length; i++) {
+    var cid = rotated[i];
+    if (!PROJECTS[cid]) continue;
+    var tags = (PROJECTS[cid].tags || []).map(function(t){ return t.label.toLowerCase(); });
+    for (var j = 0; j < currentTags.length; j++) {
+      if (tags.indexOf(currentTags[j]) !== -1) return cid;
+    }
+  }
+  // Ingen tagg-match — ta nästa i listan
+  return rotated[0];
+}
+
+// ─────────────────────────────────────────────
+// RENDER
+// ─────────────────────────────────────────────
+(function () {
+  var params = new URLSearchParams(window.location.search);
+  var id = params.get('id');
+  var p = PROJECTS[id];
+
+  if (!p) {
+    window.location.href = 'projekt.html';
+    return;
+  }
+
+  // Page title
+  document.title = p.title + ' – Isa Lindholm';
+
+  // ── HERO ──
+  var heroWrap = document.getElementById('proj-hero-wrap');
+  if (p.hero.type === 'video') {
+    if (p.hero.autoplay) {
+      heroWrap.innerHTML =
+        '<video class="proj-hero-media" src="' + p.hero.src + '" autoplay loop muted playsinline preload="auto"></video>';
+    } else {
+      heroWrap.innerHTML =
+        '<video class="proj-hero-media" id="hero-video" src="' + p.hero.src + '"' +
+        (p.hero.poster ? ' poster="' + p.hero.poster + '"' : '') +
+        ' controls playsinline preload="metadata"></video>';
+    }
+  } else {
+    var heroFit = p.hero.fit || 'cover';
+    var heroBg  = p.hero.bg  || '';
+    if (heroBg) heroWrap.style.background = heroBg;
+    if (p.hero.srcMobile) {
+      heroWrap.innerHTML =
+        '<picture>' +
+        '<source media="(max-width:768px)" srcset="' + p.hero.srcMobile + '">' +
+        '<img class="proj-hero-media" src="' + p.hero.src + '" alt="' + p.title + '" style="object-fit:' + heroFit + '">' +
+        '</picture>';
+    } else {
+      heroWrap.innerHTML =
+        '<img class="proj-hero-media" src="' + p.hero.src + '" alt="' + p.title + '" style="object-fit:' + heroFit + '">';
+    }
+  }
+
+  // ── TITLE ──
+  document.getElementById('proj-title').textContent = p.title;
+
+  // ── TAGS ──
+  var tagsEl = document.getElementById('proj-tags');
+  p.tags.forEach(function (t) {
+    var span = document.createElement('span');
+    span.className = 'proj-tag';
+    span.style.background = t.bg;
+    span.style.color = t.fg;
+    span.textContent = t.label;
+    tagsEl.appendChild(span);
+  });
+
+  // ── BODY ──
+  var bodyEl = document.getElementById('proj-body');
+  p.body.forEach(function (para) {
+    var pEl = document.createElement('p');
+    pEl.textContent = para;
+    bodyEl.appendChild(pEl);
+  });
+
+  // ── GALLERY ──
+  if (p.gallery && p.gallery.length) {
+    var galleryEl = document.getElementById('proj-gallery');
+    galleryEl.style.display = '';
+
+    var featured = p.gallery.filter(function(i){ return i.featured; });
+    var regular  = p.gallery.filter(function(i){ return !i.featured; });
+
+    function makeItem(item) {
+      var wrap = document.createElement('div');
+      wrap.className = 'media-item';
+      if (item.type === 'video') {
+        wrap.innerHTML = '<video src="' + item.src + '" controls playsinline preload="metadata"></video>';
+      } else {
+        wrap.innerHTML = '<img src="' + item.src + '" alt="" loading="lazy">';
+      }
+      return wrap;
+    }
+
+    if (featured.length) {
+      var featDiv = document.createElement('div');
+      featDiv.className = 'gallery-featured' + (featured.length > 1 ? ' gallery-featured--multi' : '');
+      featured.forEach(function(item){ featDiv.appendChild(makeItem(item)); });
+      galleryEl.appendChild(featDiv);
+    }
+
+    if (regular.length) {
+      var gridDiv = document.createElement('div');
+      gridDiv.className = 'gallery-grid';
+      var cols = p.gridCols || 4;
+      gridDiv.style.gridTemplateColumns = 'repeat(' + cols + ', 1fr)';
+      regular.forEach(function(item){ gridDiv.appendChild(makeItem(item)); });
+      galleryEl.appendChild(gridDiv);
+    }
+  }
+
+  // ── INSTAGRAM CAROUSEL ──
+  if (p.instagram && p.instagram.length > 0) {
+    // Normalize entries: support both plain strings and {url, thumb, label} objects
+    var posts = p.instagram
+      .map(function(entry) {
+        if (typeof entry === 'string') return { url: entry };
+        return entry;
+      })
+      .filter(function(entry) {
+        return entry && entry.url && (entry.url.indexOf('instagram.com') !== -1 || entry.url.indexOf('tiktok.com') !== -1);
+      });
+
+    if (posts.length > 0) {
+      var instaSection = document.getElementById('insta-section');
+      instaSection.style.display = '';
+
+      var track = document.getElementById('insta-track');
+      var dotsEl = document.getElementById('insta-dots');
+      var hasInstagram = false;
+      var hasTikTok = false;
+
+      // Build slides (2 posts per slide)
+      var slides = [];
+      for (var i = 0; i < posts.length; i += 2) {
+        slides.push(posts.slice(i, i + 2));
+      }
+
+      slides.forEach(function (pair, si) {
+        var slide = document.createElement('div');
+        slide.className = 'insta-slide';
+        pair.forEach(function (entry) {
+          var url = entry.url;
+          var thumb = entry.thumb || null;
+          var label = entry.label || null;
+          var wrap = document.createElement('div');
+          wrap.className = 'insta-embed-wrap';
+          var cleanUrl = url.split('?')[0];
+          var isHttps = location.protocol === 'https:';
+          if (url.indexOf('tiktok.com') !== -1) {
+            if (isHttps) {
+              // TikTok embed on HTTPS
+              var videoId = cleanUrl.split('/video/')[1] || '';
+              wrap.innerHTML =
+                '<blockquote class="tiktok-embed"' +
+                ' cite="' + cleanUrl + '"' +
+                ' data-video-id="' + videoId + '"' +
+                ' style="max-width:100%;min-width:100%;"></blockquote>';
+              hasTikTok = true;
+            } else if (thumb) {
+              // HTTP fallback med omslagsbild — TikTok
+              wrap.innerHTML =
+                '<a href="' + cleanUrl + '" target="_blank" rel="noopener" class="insta-thumb-card">' +
+                '<img src="' + thumb + '" alt="TikTok" class="insta-thumb-img">' +
+                '<div class="insta-thumb-overlay">' +
+                '<svg width="20" height="20" viewBox="0 0 32 32" fill="none"><path d="M19.2 0h4.267a8.533 8.533 0 0 0 8.533 8.533v4.267a12.8 12.8 0 0 1-4.267-.727V22.4A9.6 9.6 0 1 1 18.133 13v4.48a5.333 5.333 0 1 0 1.067 3.12z" fill="#fff"/></svg>' +
+                '<span>Se på TikTok →</span>' +
+                '</div>' +
+                '</a>';
+            } else {
+              wrap.innerHTML =
+                '<div class="insta-card tiktok-card">' +
+                '<svg width="36" height="36" viewBox="0 0 32 32" fill="none"><path d="M19.2 0h4.267a8.533 8.533 0 0 0 8.533 8.533v4.267a12.8 12.8 0 0 1-4.267-.727V22.4A9.6 9.6 0 1 1 18.133 13v4.48a5.333 5.333 0 1 0 1.067 3.12z" fill="#fff"/></svg>' +
+                '<a href="' + cleanUrl + '" target="_blank" rel="noopener" class="insta-card-link">Se på TikTok →</a>' +
+                '</div>';
+            }
+          } else {
+            if (isHttps) {
+              // Instagram embed on HTTPS — use embed.js blockquote
+              wrap.innerHTML =
+                '<blockquote class="instagram-media"' +
+                ' data-instgrm-permalink="' + cleanUrl + '"' +
+                ' data-instgrm-version="14"' +
+                ' style="background:#FFF;border:0;border-radius:0;max-width:100%;min-width:100%;width:calc(100% - 2px);padding:0;margin:0;">' +
+                '</blockquote>';
+              hasInstagram = true;
+            } else if (thumb) {
+              // HTTP fallback med omslagsbild
+              wrap.innerHTML =
+                '<a href="' + cleanUrl + '" target="_blank" rel="noopener" class="insta-thumb-card">' +
+                '<img src="' + thumb + '" alt="Instagram" class="insta-thumb-img">' +
+                '<div class="insta-thumb-overlay">' +
+                '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="#fff" stroke="none"/></svg>' +
+                '<span>Se på Instagram →</span>' +
+                '</div>' +
+                '</a>';
+            } else {
+              // HTTP fallback utan bild — gradient kort
+              wrap.innerHTML =
+                '<div class="insta-card">' +
+                '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="#fff" stroke="none"/></svg>' +
+                '<a href="' + cleanUrl + '" target="_blank" rel="noopener" class="insta-card-link">Se på Instagram →</a>' +
+                '</div>';
+            }
+          }
+          slide.appendChild(wrap);
+        });
+        // If only 1 post in last slide, add empty placeholder for even grid
+        if (pair.length === 1) {
+          var empty = document.createElement('div');
+          slide.appendChild(empty);
+        }
+        track.appendChild(slide);
+
+        // Dot
+        var dot = document.createElement('button');
+        dot.className = 'insta-dot' + (si === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', 'Gå till sida ' + (si + 1));
+        dot.addEventListener('click', function () { goTo(si); });
+        dotsEl.appendChild(dot);
+      });
+
+      // Hide dots if only 1 slide
+      if (slides.length <= 1) dotsEl.style.display = 'none';
+
+      // Navigation
+      var current = 0;
+      var prevBtn = document.getElementById('insta-prev');
+      var nextBtn = document.getElementById('insta-next');
+      var dots = dotsEl.querySelectorAll('.insta-dot');
+
+      function goTo(idx) {
+        current = Math.max(0, Math.min(idx, slides.length - 1));
+        track.style.transform = 'translateX(-' + (current * 100) + '%)';
+        prevBtn.disabled = current === 0;
+        nextBtn.disabled = current === slides.length - 1;
+        dots.forEach(function (d, i) {
+          d.classList.toggle('active', i === current);
+        });
+      }
+
+      prevBtn.addEventListener('click', function () { goTo(current - 1); });
+      nextBtn.addEventListener('click', function () { goTo(current + 1); });
+      goTo(0);
+
+      // Load embed scripts only on HTTPS (Instagram/TikTok kräver HTTPS)
+      if (location.protocol === 'https:') {
+        if (hasInstagram) {
+          var processIG = function () { if (window.instgrm) instgrm.Embeds.process(); };
+          if (!document.getElementById('ig-embed-script')) {
+            var s = document.createElement('script');
+            s.id = 'ig-embed-script';
+            s.async = true;
+            s.src = 'https://www.instagram.com/embed.js';
+            s.onload = processIG;
+            document.body.appendChild(s);
+          } else { processIG(); }
+          setTimeout(processIG, 1000);
+          setTimeout(processIG, 3000);
+        }
+        if (hasTikTok && !document.getElementById('tt-embed-script')) {
+          var tt = document.createElement('script');
+          tt.id = 'tt-embed-script';
+          tt.async = true;
+          tt.src = 'https://www.tiktok.com/embed.js';
+          document.body.appendChild(tt);
+        }
+      }
+    }
+  }
+
+  // ── FÖREGÅENDE PROJEKT ──
+  var prevWrap = document.getElementById('proj-prev-wrap');
+  if (prevWrap) {
+    var prevId = getPrevProject(id);
+    var prevP  = PROJECTS[prevId];
+    if (prevP) {
+      var prevThumb = THUMBS[prevId] || '';
+      var prevThumbHtml = prevThumb
+        ? '<div class="proj-prev-thumb"><video src="' + prevThumb + '" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;display:block"></video></div>'
+        : '';
+      prevWrap.innerHTML =
+        '<a href="projekt_sida.html?id=' + prevId + '" class="proj-prev">' +
+        '<div class="proj-prev-meta">' +
+        '<span class="proj-prev-eyebrow">Föregående projekt</span>' +
+        '<span class="proj-prev-title">← ' + prevP.title + '</span>' +
+        '</div>' +
+        prevThumbHtml +
+        '</a>';
+    }
+  }
+
+  // ── NÄSTA PROJEKT ──
+  var nextWrap = document.getElementById('proj-next-wrap');
+  if (nextWrap) {
+    var nextId = getNextProject(id);
+    var nextP  = PROJECTS[nextId];
+    if (nextP) {
+      var nextThumb = THUMBS[nextId] || '';
+      var nextThumbHtml = nextThumb
+        ? '<div class="proj-next-thumb"><video src="' + nextThumb + '" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;display:block"></video></div>'
+        : '';
+      nextWrap.innerHTML =
+        '<a href="projekt_sida.html?id=' + nextId + '" class="proj-next">' +
+        nextThumbHtml +
+        '<div class="proj-next-meta">' +
+        '<span class="proj-next-eyebrow">Nästa projekt</span>' +
+        '<span class="proj-next-title">' + nextP.title + ' →</span>' +
+        '</div>' +
+        '</a>';
+    }
+  }
+
+  // ── HERO VIDEO: portrait → modal, landscape → fullscreen ──
+  var heroVid = document.getElementById('hero-video');
+  if (heroVid) {
+    var modal      = document.getElementById('vid-modal');
+    var modalInner = document.getElementById('vid-modal-inner');
+    var modalClose = document.getElementById('vid-modal-close');
+    var isPortrait = false;
+
+    heroVid.addEventListener('loadedmetadata', function () {
+      isPortrait = heroVid.videoHeight > heroVid.videoWidth;
+    });
+
+    heroVid.addEventListener('play', function () {
+      if (isPortrait) {
+        // Klona videon in i modal med rätt proportioner
+        heroVid.pause();
+        var mv = document.createElement('video');
+        mv.src      = heroVid.src;
+        mv.poster   = heroVid.poster || '';
+        mv.controls = true;
+        mv.autoplay = true;
+        mv.playsInline = false;
+        mv.style.cssText = 'display:block;max-height:90vh;max-width:min(90vw,calc(90vh * ' +
+          heroVid.videoWidth + '/' + heroVid.videoHeight + '));border-radius:8px';
+        // Ta bort ev. gammal video i modal
+        var old = modalInner.querySelector('video');
+        if (old) old.remove();
+        modalInner.insertBefore(mv, modalClose);
+        modal.classList.add('open');
+      } else {
+        // Liggande → fullscreen
+        var el = heroVid;
+        if (el.requestFullscreen)            { el.requestFullscreen(); }
+        else if (el.webkitRequestFullscreen) { el.webkitRequestFullscreen(); }
+        else if (el.webkitEnterFullscreen)   { el.webkitEnterFullscreen(); }
+      }
+    });
+
+    // Stäng modal
+    function closeModal() {
+      var mv = modalInner.querySelector('video');
+      if (mv) { mv.pause(); mv.remove(); }
+      modal.classList.remove('open');
+    }
+    if (modalClose) modalClose.addEventListener('click', closeModal);
+    if (modal) modal.addEventListener('click', function(e) {
+      if (e.target === modal) closeModal();
+    });
+  }
+
+  // ── HAMBURGER ──
+  var h = document.getElementById('hamBtn');
+  var m = document.getElementById('mobMenu');
+  if (h && m) {
+    h.addEventListener('click', function () { m.classList.toggle('open'); });
+    m.addEventListener('click', function (e) {
+      if (!e.target.closest('a')) m.classList.remove('open');
+    });
+  }
+
+})();
+</script>
+</body>
+</html>

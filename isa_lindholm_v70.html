@@ -28,7 +28,7 @@ body{font-family:var(--nm);font-weight:500;background:var(--white);color:var(--d
 img{max-width:100%;height:auto}
 
 /* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:300;display:flex;justify-content:center;align-items:center;padding:1.2rem var(--pad);transition:all .4s}
+nav{position:fixed;top:0;left:0;right:0;z-index:300;display:flex;justify-content:center;align-items:center;gap:.7rem;padding:1.2rem var(--pad);transition:all .4s}
 .nav-logo{font-family:var(--nm);font-size:.8rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:white;text-decoration:none;transition:color .3s}
 nav.scrolled .nav-logo{color:var(--dark)}
 .nav-pill{display:flex;align-items:center;gap:0;list-style:none;background:rgba(255,255,255,.15);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.28);border-radius:100px;padding:5px 5px 5px 18px;transition:background .4s,border-color .4s}
@@ -40,7 +40,10 @@ nav.scrolled .nav-pill li a{color:var(--dark);opacity:.6}
 .nav-pill li a:hover{opacity:1}
 .nav-cta{display:inline-flex;align-items:center;background:white;color:var(--dark)!important;padding:9px 22px;border-radius:100px;font-family:var(--nm);font-size:.68rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;transition:all .3s;white-space:nowrap;opacity:1!important}
 nav.scrolled .nav-cta{background:var(--dark);color:white!important}
-.nav-cta:hover{background:var(--c1-bg);color:white}
+.nav-cta:hover{background:var(--c1-bg);color:white!important}
+
+/* CUSTOM CURSOR */
+.hero-cursor{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;width:52px;height:52px;transform:translate(-50%,-50%);opacity:0;transition:opacity .25s;will-change:transform}
 
 /* HERO */
 .hero{position:relative;height:100vh;overflow:hidden;background:#0d0d0d}
@@ -104,7 +107,8 @@ h2.exp-hl em{font-style:italic}
 .btn-cover{background:var(--c4-bg);color:var(--c4-acc)}
 .btn-cover:hover{background:#ffd870}
 .exp-right{background:var(--white);padding:clamp(2rem,4vw,4rem) clamp(2.5rem,5vw,5rem) clamp(10rem,18vh,16rem);display:flex;flex-direction:column;gap:1rem;align-items:flex-start}
-.exp-card{border-radius:28px;padding:clamp(1.4rem,2.5vw,2rem) clamp(1.6rem,2.8vw,2.2rem);display:flex;flex-direction:column;gap:clamp(.5rem,1vw,.8rem);width:88%;transition:transform .45s ease}
+.exp-card{border-radius:28px;padding:clamp(1.4rem,2.5vw,2rem) clamp(1.6rem,2.8vw,2.2rem);display:flex;flex-direction:column;gap:clamp(.5rem,1vw,.8rem);width:88%;opacity:0;transition:transform .45s ease,opacity .6s ease}
+.exp-card.in{opacity:1}
 .exp-card:nth-child(odd){align-self:flex-start;transform:translateX(-1.5%) rotate(-1deg)}
 .exp-card:nth-child(even){align-self:flex-end;transform:translateX(1.5%) rotate(0.8deg)}
 .exp-card.active{transform:translateX(0) rotate(0deg) scale(1.04)}
@@ -145,6 +149,8 @@ footer{background:#fde6a4;padding:2rem var(--pad);display:flex;justify-content:c
 .reveal-d1{transition-delay:.12s}
 .reveal-d2{transition-delay:.22s}
 .reveal-d3{transition-delay:.32s}
+.reveal-opacity{opacity:0;transition:opacity .7s cubic-bezier(.25,.46,.45,.94)}
+.reveal-opacity.in{opacity:1}
 
 
 /* DEKORATIVA STJÄRNOR I HERO */
@@ -305,6 +311,15 @@ footer{background:#fde6a4;padding:2rem var(--pad);display:flex;justify-content:c
 </head>
 <body>
 
+<!-- Custom hero cursor -->
+<div class="hero-cursor" id="heroCursor">
+  <svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="26" cy="26" r="25" fill="white" fill-opacity="0.92"/>
+    <line x1="26" y1="14" x2="26" y2="38" stroke="#111" stroke-width="2.2" stroke-linecap="round"/>
+    <polyline points="18,30 26,38 34,30" stroke="#111" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  </svg>
+</div>
+
 <nav id="sitenav">
   <ul class="nav-pill">
     <li><a href="projekt.html">Projekt</a></li>
@@ -352,7 +367,7 @@ footer{background:#fde6a4;padding:2rem var(--pad);display:flex;justify-content:c
   <div class="work-header reveal">
     <h2 class="work-title reveal">Projekt jag är<br>lite extra stolt över.</h2>
   </div>
-  <div class="marquee-track">
+  <div class="marquee-track reveal">
     <div class="marquee-inner">
       <a href="projekt_sida.html?id=tsbn" class="pcard" data-pcard><div class="pcard-img"><video class="pcard-thumb" preload="none" src="Framsidor/TSBN.mp4" autoplay loop muted playsinline></video></div></a>
       <a href="projekt_sida.html?id=dino" class="pcard" data-pcard><div class="pcard-img"><video class="pcard-thumb" preload="none" src="Framsidor/dino.mp4" autoplay loop muted playsinline></video></div></a>
@@ -390,11 +405,11 @@ footer{background:#fde6a4;padding:2rem var(--pad);display:flex;justify-content:c
       <div class="exp-card ec-1" data-card>
         <span class="exp-chip">2025 – nu</span>
         <p class="exp-company">Naturhistoriska riksmuseet</p>
-        <p class="exp-desc">Ansvarar självständigt för hela innehållskedjan på Instagram och TikTok, från idé och research till inspelning, redigering och publicering. Hittills: 74 videos, 2,7 miljoner visningar och 30 000 delningar.</p>
+        <p class="exp-desc">Ansvarar självständigt för hela innehållskedjan på Instagram och TikTok, från idé och research till inspelning, redigering och publicering. Hittills: 3,5 miljoner visningar, 190 000 likes och 40 000 delningar.</p>
         <p class="exp-meta">Social media manager – konsult · Frilans</p>
       </div>
       <div class="exp-card ec-2" data-card>
-        <span class="exp-chip">2021 – 2022</span>
+        <span class="exp-chip">2023 – 2025</span>
         <p class="exp-company">Frilansprojekt</p>
         <p class="exp-desc">Frilansprojekt inom motion design och grafisk design. Bland annat intro- och countdownanimationer för Uppsala Life, samt illustrationer för systemintegrationsföretaget Engin.</p>
         <p class="exp-meta">Frilansuppdrag · Grafisk design &amp; animation</p>
@@ -420,17 +435,17 @@ footer{background:#fde6a4;padding:2rem var(--pad);display:flex;justify-content:c
   <div class="about-inner">
     <div class="reveal">
       <span class="about-eyebrow">Om mig</span>
-      <h2 class="about-hl">Gul och<br><em>nyfiken.</em></h2>
-      <p class="about-body">Jag har ritat så länge jag kan minnas. Det började på förskolan, där jag tog tatueringsbeställningar från kompisarna med tuschpennor. Den karriären tog en annan vändning, men nyfikenheten och känslan för form har följt med hela vägen till animation, video och grafisk design.<br><br>Någon sa en gång att jag är den gulaste personen de träffat. Inte bokstavligt, utan gul i bemärkelsen utåtriktad, kreativ och nyfiken. Det stämmer nog — ena veckan nördar jag ner mig i sena 1800-talets historia, nästa är det de senaste dinosauriefynden, och till slut landar jag alltid i vad som händer på sociala medier just nu.<br><br>Jag jobbar i skärningspunkten mellan design och kommunikation och trivs som bäst när projektet är lite svårt, målgruppen är bred och ingen riktigt vet hur det ska bli från början.</p>
+      <h2 class="about-hl reveal reveal-d1">Gul och<br><em>nyfiken.</em></h2>
+      <p class="about-body">Jag har ritat så länge jag kan minnas. På förskolan tog jag tatueringsbeställningar från kompisarna med tuschpennor. Den karriären tog en annan vändning, men nyfikenheten och känslan för form har följt med hela vägen till animation, video och grafisk design.<br><br>Ena veckan nördar jag ner mig i sena 1800-talets historia. Nästa är det de senaste dinosauriefynden. Till slut landar jag alltid i vad som händer på sociala medier just nu. Jag är lagom omöjlig att hålla fast vid ett ämne, vilket visar sig vara ganska användbart.<br><br>Jag jobbar i skärningspunkten mellan design och kommunikation. Trivs bäst när projektet är lite svårt, målgruppen är bred och ingen riktigt vet hur det ska bli från början.</p>
     </div>
     <div class="reveal reveal-d2 portrait-wrap">
       <div class="portrait"><img src="Bild_pa_mig2.webp" alt="Isa Lindholm"></div>
     </div>
-    <div class="avail about-avail"><span class="avail-dot"></span> Öppen för uppdrag</div>
+    <div class="avail about-avail reveal reveal-d3"><span class="avail-dot"></span> Öppen för uppdrag</div>
   </div>
 </section>
 
-<footer>
+<footer class="reveal">
   <div class="foot-links">
     <a href="https://www.linkedin.com/in/isa-lindholm-9b4313180/" target="_blank" rel="noopener">LinkedIn</a>
     <a href="mailto:hej.isalindholm@gmail.com">hej.isalindholm@gmail.com</a>
@@ -448,6 +463,7 @@ const revObs = new IntersectionObserver(function(entries) {
   entries.forEach(function(e) { if(e.isIntersecting) e.target.classList.add('in'); });
 }, {threshold:0.05, rootMargin:"0px 0px -60px 0px"});
 document.querySelectorAll('.reveal').forEach(function(el) { revObs.observe(el); });
+document.querySelectorAll('[data-card]').forEach(function(el) { revObs.observe(el); });
 
 const cards = document.querySelectorAll('[data-card]');
 function updateActive() {
@@ -558,6 +574,33 @@ if (hamBtn && mobMenu) {
     }
   });
 }
+
+// Custom hero cursor
+(function() {
+  var cursor = document.getElementById('heroCursor');
+  var heroFrame = document.querySelector('.hero-frame');
+  if (!cursor || !heroFrame) return;
+  var mx = 0, my = 0;
+  var onHero = false;
+
+  document.addEventListener('mousemove', function(e) {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.transform = 'translate(' + (mx - 26) + 'px,' + (my - 26) + 'px)';
+    var rect = heroFrame.getBoundingClientRect();
+    var inside = mx >= rect.left && mx <= rect.right && my >= rect.top && my <= rect.bottom;
+    if (inside !== onHero) {
+      onHero = inside;
+      cursor.style.opacity = inside ? '1' : '0';
+      heroFrame.style.cursor = inside ? 'none' : '';
+    }
+  });
+
+  document.addEventListener('mouseleave', function() {
+    cursor.style.opacity = '0';
+    heroFrame.style.cursor = '';
+    onHero = false;
+  });
+})();
 </script>
 
 </div>

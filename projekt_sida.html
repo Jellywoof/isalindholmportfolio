@@ -552,18 +552,8 @@ function getNextProject(currentId) {
           var wrap = document.createElement('div');
           wrap.className = 'insta-embed-wrap';
           var cleanUrl = url.split('?')[0];
-          var isHttps = location.protocol === 'https:';
           if (url.indexOf('tiktok.com') !== -1) {
-            if (isHttps) {
-              // TikTok embed on HTTPS
-              var videoId = cleanUrl.split('/video/')[1] || '';
-              wrap.innerHTML =
-                '<blockquote class="tiktok-embed"' +
-                ' cite="' + cleanUrl + '"' +
-                ' data-video-id="' + videoId + '"' +
-                ' style="max-width:100%;min-width:100%;"></blockquote>';
-              hasTikTok = true;
-            } else if (thumb) {
+            if (thumb) {
               // HTTP fallback med omslagsbild — TikTok
               wrap.innerHTML =
                 '<a href="' + cleanUrl + '" target="_blank" rel="noopener" class="insta-thumb-card">' +
@@ -581,16 +571,7 @@ function getNextProject(currentId) {
                 '</div>';
             }
           } else {
-            if (isHttps) {
-              // Instagram embed on HTTPS — use embed.js blockquote
-              wrap.innerHTML =
-                '<blockquote class="instagram-media"' +
-                ' data-instgrm-permalink="' + cleanUrl + '"' +
-                ' data-instgrm-version="14"' +
-                ' style="background:#FFF;border:0;border-radius:0;max-width:100%;min-width:100%;width:calc(100% - 2px);padding:0;margin:0;">' +
-                '</blockquote>';
-              hasInstagram = true;
-            } else if (thumb) {
+            if (thumb) {
               // HTTP fallback med omslagsbild
               wrap.innerHTML =
                 '<a href="' + cleanUrl + '" target="_blank" rel="noopener" class="insta-thumb-card">' +

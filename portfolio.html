@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Isa Lindholm</title>
+<link rel="icon" href="thumbnail.png" type="image/png">
+<link rel="stylesheet" href="https://use.typekit.net/bzd2orb.css">
+<link rel="stylesheet" href="shared.css">
+<style>
+@font-face{font-family:'PPNeueBit';src:url('fonts/PPNeueBit-Bold.otf') format('opentype');font-weight:700;font-style:normal}
+@font-face{font-family:'PPMondwest';src:url('fonts/PPMondwest-Regular.otf') format('opentype');font-weight:400;font-style:normal}
+@font-face{font-family:'PPSupplySans';src:url('fonts/PPSupplySans-Regular.otf') format('opentype');font-weight:400;font-style:normal}
+@font-face{font-family:'PPSupplySans';src:url('fonts/PPSupplySans-Ultralight.otf') format('opentype');font-weight:200;font-style:normal}
+@font-face{font-family:'PPSupplyMono';src:url('fonts/PPSupplyMono-Regular.otf') format('opentype');font-weight:400;font-style:normal}
+@font-face{font-family:'PPSupplyMono';src:url('fonts/PPSupplyMono-Ultralight.otf') format('opentype');font-weight:200;font-style:normal}
+@font-face{font-family:'NeueMontreal';src:url('fonts/NeueMontreal_0.otf') format('otf')} format('opentype');font-weight:400;font-style:normal}@font-face{font-family:'NeueMontreal';src:url('fonts/NeueMontreal_1.otf') format('otf')} format('opentype');font-weight:500;font-style:normal}@font-face{font-family:'Frama';src:url('fonts/Frama_2.otf') format('otf')} format('opentype');font-weight:400;font-style:normal}@font-face{font-family:'Frama';src:url('fonts/Frama_3.otf') format('otf')} format('opentype');font-weight:900;font-style:normal}@font-face{font-family:'Formula';src:url('fonts/Formula_4.otf') format('otf')} format('opentype');font-weight:500;font-style:normal}@font-face{font-family:'Formula';src:url('fonts/Formula_5.otf') format('otf')} format('opentype');font-weight:700;font-style:normal}
+
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --nm:'NeueMontreal',sans-serif;
+  --arb:'PPSupplySans',sans-serif;
+  --frama:'Frama',sans-serif;
+  --pad:clamp(4rem,10vw,12rem);
+  --c1-bg:#3c7c6b; --c1-acc:#f3ccce;
+  --c2-bg:#d4e8f7; --c2-acc:#8a2747;
+  --c3-bg:#4b7cbc; --c3-acc:#fce084;
+  --c4-bg:#ffe59c; --c4-acc:#db7138;
+  --c5-bg:#c1b7d0; --c5-acc:#faf7c4;
+  --dark:#181818; --white:#fff;
+}
+html{scroll-behavior:smooth;overflow-x:clip}
+body{font-family:var(--nm);font-weight:500;background:var(--white);color:var(--dark);-webkit-font-smoothing:antialiased;overflow-x:clip}
+img{max-width:100%;height:auto}
+
+/* NAV – stilar hanteras av shared.css, inget override här */
+
+/* CUSTOM CURSOR */
+.hero-cursor,.pcard-cursor{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;opacity:0;transition:opacity .2s;will-change:transform}
+.hero-cursor-pill{display:block;background:#3c7c6b;color:#f3ccce;font-family:var(--nm);font-size:.72rem;font-weight:700;letter-spacing:.04em;padding:.45rem 1rem;border-radius:999px;white-space:nowrap}
+.pcard-cursor-pill{display:block;font-family:var(--nm);font-size:.72rem;font-weight:700;letter-spacing:.04em;padding:.45rem 1rem;border-radius:999px;white-space:nowrap}
+
+/* HERO */
+.hero{position:relative;height:100vh;overflow:hidden;background:#0d0d0d}
+.hero-frame{position:relative;overflow:hidden;z-index:3}
+.section-cover{position:absolute;bottom:0;left:0;right:0;height:110%;background:var(--cover-bg);border-radius:48% 48% 0 0 / 70px 70px 0 0;transform:translateY(100%) translateZ(0);z-index:10;pointer-events:none;will-change:transform;isolation:isolate}
+.hero-cover{position:absolute;bottom:0;left:0;right:0;height:110%;background:#b7d6ed;border-radius:48% 48% 0 0 / 70px 70px 0 0;transform:translateY(100%);z-index:10;pointer-events:none;will-change:transform}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(155deg,#162e1f 0%,#25583a 50%,#1a3d2a 100%)}
+.hero-gif{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.hero-overlay{position:absolute;inset:0;background:rgba(0,0,0,.18);z-index:2}
+.hero-bottom{position:absolute;bottom:2.5rem;left:0;right:0;z-index:3;padding:0 clamp(.8rem,2vw,1.5rem);display:flex;justify-content:space-between;align-items:flex-end}
+.hero-logo img{width:min(560px,58vw);height:auto;filter:brightness(0) invert(1);opacity:.95;display:block}
+.ham-btn{display:none}.mob-menu{display:none}.scroll-wrap{display:flex;flex-direction:column;align-items:center;gap:.5rem}
+.scroll-lbl{font-family:var(--nm);font-size:.44rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.2)}
+.scroll-bar{width:1px;height:28px;background:rgba(255,255,255,.14);position:relative;overflow:hidden}
+.scroll-bar::after{content:'';position:absolute;top:-100%;width:100%;height:100%;background:rgba(255,255,255,.48);animation:sb 1.8s ease-in-out infinite}
+@keyframes sb{to{top:200%}}
+
+/* PANELS */
+.panel{position:relative;border-radius:28px 28px 0 0;margin-top:-28px;box-shadow:none}
+
+/* WORK */
+.work-frame{position:relative;overflow:visible;z-index:2}
+.work-panel{background:#b7d6ed}
+.work-spacer{height:clamp(5rem,9vw,10rem)}
+.work-header{padding:0;overflow:visible;position:sticky;top:3.5rem;z-index:1;pointer-events:none}
+h2.work-title{
+  font-family:var(--arb);font-weight:700;
+  font-size:10vw; /* justeras av JS */
+  color:#842121;line-height:.9;
+  letter-spacing:.01em;
+  display:block;
+  white-space:nowrap;
+  overflow:visible;
+  width:max-content;
+  margin:0 auto;
+  padding:0;
+}
+h2.work-title em{font-style:italic;color:#b7d6ed;-webkit-text-stroke:1.5px #842121}
+.view-all-wrap{padding:0.3rem var(--pad) clamp(4rem,7vw,5rem);margin-top:0;text-align:right}
+.view-all{font-family:var(--nm);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:#842121;opacity:.6;text-decoration:none;border-bottom:1px solid #842121;padding-bottom:1px;transition:opacity .2s}
+.view-all:hover{opacity:1}
+/* PROJ GRID */
+.proj-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;padding:0 clamp(2rem,6vw,7rem) clamp(3rem,5vw,5rem);position:relative;z-index:10;margin-top:clamp(-12rem,-20vw,-8rem);align-items:start}
+.proj-col{display:flex;flex-direction:column;gap:1rem}
+.proj-col:nth-child(1){margin-top:clamp(14rem,26vw,30rem)}
+.proj-col:nth-child(2){margin-top:clamp(11rem,20vw,24rem)}
+.proj-col:nth-child(3){margin-top:clamp(13rem,23vw,27rem)}
+
+/* pcard */
+.pcard{border-radius:0;overflow:hidden;cursor:pointer;transition:transform .3s ease,box-shadow .3s;text-decoration:none;display:block;width:100%}
+.pcard:hover{box-shadow:0 20px 50px rgba(0,0,0,.2)}
+.pcard-img{width:100%;overflow:hidden;display:block}
+/* Exakta proportioner från referensbilden — ignorerar innehållets native ratio */
+.pcard-img--tall{aspect-ratio:3/4}
+.pcard-img--land{aspect-ratio:4/3}
+.pcard-thumb{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
+.pcard:hover .pcard-thumb{transform:scale(1.06)}
+
+/* Dölj vita cover-animationer */
+.hero-cover,.section-cover{display:none!important}
+
+/* pcard scroll-reveal: animerar faktisk höjd så glapp bibehålls */
+.pcard-reveal{border-radius:14px;overflow:hidden;transition:height 2.2s cubic-bezier(.16,1,.3,1)}
+
+/* EXP FAN */
+.exp-panel{background:var(--white);position:relative;z-index:2}
+.exp-scroll-driver{height:300vh}
+.exp-heading-wrap{padding:clamp(.3rem,.8vw,.8rem) 0 0;text-align:center;overflow:hidden}
+.exp-eyebrow{font-family:var(--nm);font-size:.52rem;letter-spacing:.28em;text-transform:uppercase;font-weight:500;opacity:.35;margin-bottom:.6rem;display:block}
+h2.exp-hl{font-family:var(--arb);font-weight:700;font-size:10vw;color:var(--dark);line-height:.9;letter-spacing:.01em;white-space:nowrap;display:inline-block}
+.exp-sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:clamp(.5rem,1vw,1rem)}
+.exp-fan{position:relative;width:min(1250px,94vw);height:560px;margin-top:2.5rem}
+.exp-fan-card{
+  position:absolute;
+  width:350px;height:370px;
+  border-radius:22px;
+  padding:1.8rem 1.6rem;
+  display:flex;flex-direction:column;gap:.9rem;
+  box-shadow:0 20px 56px rgba(0,0,0,.22);
+  opacity:0;
+  transform:translateY(110vh) rotate(0deg);
+  transition:opacity .5s cubic-bezier(.22,1,.36,1), transform .75s cubic-bezier(.22,1,.36,1);
+}
+/* Equal 300px gaps at 1250px container (350px cards, 50px overlap each) */
+.exp-fan-card[data-ei="0"].landed{opacity:1;left:0;    top:60px;  transform:rotate(-9deg)}
+.exp-fan-card[data-ei="1"].landed{opacity:1;left:24%;  top:115px; transform:rotate(-2deg)}
+.exp-fan-card[data-ei="2"].landed{opacity:1;left:48%;  top:65px;  transform:rotate(5deg)}
+.exp-fan-card[data-ei="3"].landed{opacity:1;left:72%;  top:120px; transform:rotate(-4deg)}
+.exp-chip{display:inline-block;padding:6px 16px;border-radius:100px;font-family:var(--nm);font-size:.85rem;font-weight:500;letter-spacing:.04em;align-self:flex-start}
+.exp-company{font-family:var(--arb);font-weight:700;font-size:1.9rem;letter-spacing:.04em;line-height:1.05}
+.exp-desc{font-family:var(--nm);font-weight:500;font-size:1.05rem;line-height:1.65}
+.exp-meta{font-family:var(--nm);font-weight:400;font-size:.85rem;opacity:.7}
+.ec-1{background:var(--c1-bg)} .ec-1 .exp-chip{background:var(--c1-acc);color:var(--c1-bg)} .ec-1 .exp-company,.ec-1 .exp-desc,.ec-1 .exp-meta{color:var(--c1-acc)}
+.ec-2{background:var(--c2-bg)} .ec-2 .exp-chip{background:var(--c2-acc);color:white} .ec-2 .exp-company,.ec-2 .exp-desc,.ec-2 .exp-meta{color:var(--c2-acc)}
+.ec-3{background:var(--c3-bg)} .ec-3 .exp-chip{background:var(--c3-acc);color:var(--c3-bg)} .ec-3 .exp-company,.ec-3 .exp-desc,.ec-3 .exp-meta{color:var(--c3-acc)}
+.ec-4{background:var(--c4-bg)} .ec-4 .exp-chip{background:var(--c4-acc);color:var(--c4-bg)} .ec-4 .exp-company,.ec-4 .exp-desc,.ec-4 .exp-meta{color:var(--c4-acc)}
+
+/* ABOUT */
+.about-panel{background:var(--c3-bg);box-shadow:none;z-index:3}
+.about-scroll-driver{height:500vh;view-timeline:--about-tl block}
+.about-sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column}
+.about-inner{padding:clamp(2rem,4vw,4rem) var(--pad) clamp(4rem,7vw,7rem);display:grid;grid-template-columns:1fr 1fr;gap:clamp(3rem,6vw,6rem);align-items:center;flex:1;animation:about-drift linear both;animation-timeline:--about-tl;animation-range:entry 0% cover 55%}
+.about-heading-wrap{padding:clamp(1.5rem,3vw,3rem) 0 0;text-align:center;animation:about-drift linear both;animation-timeline:--about-tl;animation-range:entry 0% cover 55%}
+@keyframes about-drift{from{transform:translateY(12vh)}to{transform:translateY(-12vh)}}
+.about-eyebrow{font-family:var(--nm);font-size:.52rem;letter-spacing:.28em;text-transform:uppercase;font-weight:500;margin-bottom:1.2rem;display:block;color:rgba(252,224,132,.45)}
+.about-heading-wrap{padding:clamp(1.5rem,3vw,3rem) 0 0;text-align:center}
+h2.about-hl{font-family:var(--arb);font-weight:700;font-size:10vw;color:var(--c3-acc);line-height:.9;letter-spacing:.01em;margin-bottom:0;white-space:nowrap;display:inline-block}
+h2.about-hl em{font-style:italic}
+.about-body{font-family:var(--nm);font-weight:500;font-size:clamp(.98rem,1.4vw,1.08rem);line-height:1.7;color:rgba(252,224,132,.85);max-width:460px;margin-bottom:1.5rem}
+.cv-btn{display:inline-block;margin-top:.5rem;padding:.55rem 1.3rem;border-radius:999px;border:1.5px solid rgba(252,224,132,.5);color:var(--c3-acc);font-family:var(--nm);font-size:.75rem;font-weight:700;letter-spacing:.05em;text-decoration:none;transition:background .2s,color .2s,border-color .2s}
+.cv-btn:hover{background:var(--c3-acc);color:var(--c1-bg);border-color:var(--c3-acc)}
+.about-avail{grid-column:1;padding-top:.5rem;padding-bottom:1rem}.avail{display:inline-flex;align-items:center;gap:.6rem;font-family:var(--nm);font-size:.76rem;font-weight:500;color:var(--c3-acc)}
+.avail-dot{width:8px;height:8px;border-radius:50%;background:var(--c3-acc);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.portrait-wrap{display:flex;align-items:center;justify-content:center}
+.portrait{width:75%;aspect-ratio:3/4;border-radius:22px;overflow:hidden}
+.portrait img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
+
+/* PHOTO STACK */
+.photo-stack-wrap{display:flex;align-items:center;justify-content:center;padding:2rem 0}
+.photo-stack{position:relative;width:min(320px,70%);aspect-ratio:3/4}
+.photo-card{
+  position:absolute;inset:0;border-radius:14px;overflow:hidden;
+  box-shadow:0 12px 40px rgba(0,0,0,.25);
+  opacity:0;
+  transform:translateY(40px) rotate(0deg);
+  transition:opacity .55s cubic-bezier(.22,1,.36,1), transform .65s cubic-bezier(.22,1,.36,1);
+}
+.photo-card img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;image-orientation:from-image}
+.photo-card[data-i="0"].landed{opacity:1;transform:rotate(-12deg) translate(-40px, 10px)}
+.photo-card[data-i="1"].landed{opacity:1;transform:rotate(8deg) translate(36px,-8px)}
+.photo-card[data-i="2"].landed{opacity:1;transform:rotate(-2deg) translate(4px, 2px)}
+
+/* FOOTER */
+footer{background:#fde6a4;padding:2rem var(--pad);display:flex;justify-content:center;align-items:center;gap:2.5rem;flex-wrap:wrap}
+.foot-logo{height:20px;filter:brightness(0) invert(1) sepia(1) saturate(4) hue-rotate(192deg) brightness(.75);opacity:1}
+.foot-links{display:flex;gap:1.8rem}
+.foot-links a{font-family:var(--nm);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:#4b7cbc;font-weight:600;text-decoration:none;transition:color .2s}
+.foot-links a:hover{color:var(--c3-bg)}
+.foot-copy{font-family:var(--nm);font-size:.55rem;color:rgba(75,124,188,.45)}
+
+.reveal{opacity:0;transform:scale(0.95) translateY(30px);transition:opacity .7s cubic-bezier(.25,.46,.45,.94),transform .7s cubic-bezier(.25,.46,.45,.94)}
+.reveal.in{opacity:1;transform:scale(1) translateY(0)}
+.reveal-d1{transition-delay:.12s}
+.reveal-d2{transition-delay:.22s}
+.reveal-d3{transition-delay:.32s}
+.reveal-opacity{opacity:0;transition:opacity .7s cubic-bezier(.25,.46,.45,.94)}
+.reveal-opacity.in{opacity:1}
+
+/* HAMBURGER — endast mobil */
+.mob-bar .ham-btn { display: flex; }
+.ham-btn span{background:var(--dark)}
+.ham-btn.open span:nth-child(1){transform:translateY(4px) rotate(45deg)}
+.ham-btn.open span:nth-child(2){transform:translateY(-4px) rotate(-45deg)}
+
+/* HERO FRAME OVERLAY */
+.hero-frame-overlay{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;z-index:2;pointer-events:none}
+
+
+/* DEKORATIVA STJÄRNOR I HERO */
+.deco-star{position:absolute;fill:white;opacity:0;animation:starfade 3s ease-in-out infinite}
+.deco-star-1{width:22px;height:22px;top:18%;left:14%;animation-delay:0s}
+.deco-star-2{width:14px;height:14px;top:32%;right:18%;animation-delay:.9s}
+.deco-star-3{width:18px;height:18px;top:62%;left:8%;animation-delay:1.7s}
+.deco-star-4{width:10px;height:10px;top:24%;right:38%;animation-delay:.4s}
+.deco-star-5{width:16px;height:16px;top:72%;right:12%;animation-delay:1.2s}
+@keyframes starfade{0%,100%{opacity:.18}50%{opacity:.55}}
+
+
+/* ════════════════════════════════════════════
+   MOBILE  ≤ 768px
+   ════════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+  /* ── Variables: side padding ── */
+  :root { --pad: 1.6rem; }
+
+
+  /* ── HERO FRAME: no border on mobile ── */
+  .hero-frame { overflow: hidden; }
+  .hero { height: 100svh; height: 100vh; border-radius: 0; }
+  nav { padding: .9rem var(--pad); }
+  .hero-cover, .section-cover { border-radius: 50% 50% 0 0 / 40px 40px 0 0; }
+  .panel { border-radius: 0; margin-top: -2px; }
+  /* Dölj deco-stjärnor på mobil — CSS-animationer skapar GPU-lager som kan störa section-cover */
+  .deco-star { display: none; }
+
+  /* ── HAMBURGER BUTTON: open/close animation (2 streck) ── */
+  .ham-btn.open span:nth-child(1) { transform: translateY(4px) rotate(45deg); }
+  .ham-btn.open span:nth-child(2) { transform: translateY(-4px) rotate(-45deg); }
+
+  /* Mobilmeny — se shared.css */
+
+  /* ── HERO: 4:5 ratio, full width, NO rounded bottom corners ── */
+  .hero {
+    height: auto;
+    aspect-ratio: 1 / 1;
+    margin: 0;
+    border-radius: 0;
+  }
+  .hero-gif { object-fit: fill; }
+  .hero-frame-overlay { object-fit: fill; }
+  .hero-logo img { width: 78vw; }
+  .hero-bottom { padding: 0 1.4rem 1.4rem; bottom: 0; }
+
+  /* ── WORK ── */
+  .work-spacer { height: 2rem; }
+  .work-header { padding: 0 .8rem 1rem; }
+  .work-header { overflow: hidden; }
+  h2.work-title { white-space: normal; margin-left: 0 !important; width: auto !important; font-size: clamp(2.8rem, 13vw, 4.5rem); }
+  /* Mobil: 2-kolumns grid utan row-span — col1+col3 staplas i höger kolumn naturligt */
+  .proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;padding:0 .6rem 3rem;margin-top:0;align-items:start}
+  .proj-col:nth-child(1){grid-column:2;margin-top:1.5rem}
+  .proj-col:nth-child(2){grid-column:1;grid-row:1/span 3;margin-top:clamp(2.5rem,6vw,4rem)}
+  .proj-col:nth-child(3){grid-column:2;margin-top:0}
+  /* Inaktivera höjdanimation på mobil */
+  .pcard-reveal{height:auto!important;transition:none!important}
+  /* Ge första kortet i vänsterkolumnen porträttformat — jämnar ut gridden */
+  .proj-col:nth-child(2) .pcard-reveal:first-child .pcard-img{aspect-ratio:3/4!important}
+  /* Jämna gap i alla kolumner */
+  .proj-col{gap:.5rem!important}
+
+  /* ── EXP FAN: mobil ── */
+  .exp-scroll-driver { height: 240vh; }
+  h2.exp-hl { white-space: normal; font-size: clamp(2.8rem,13vw,4.5rem); }
+  .exp-fan { width: 95vw; height: 320px; }
+  .exp-fan-card { width: 140px; height: 240px; padding: 1rem; font-size: .8rem; }
+  .exp-fan-card[data-ei="0"].landed { left:0;   top:20px; transform:rotate(-12deg); }
+  .exp-fan-card[data-ei="1"].landed { left:20%; top:0;    transform:rotate(-4deg);  }
+  .exp-fan-card[data-ei="2"].landed { left:40%; top:10px; transform:rotate(5deg);   }
+  .exp-fan-card[data-ei="3"].landed { left:60%; top:30px; transform:rotate(14deg);  }
+
+  /* ── ABOUT: more top padding, smaller body text, full-width portrait ── */
+  .about-inner {
+    grid-template-columns: 1fr;
+    padding: 3rem var(--pad) 3.5rem;
+    gap: 1.2rem;
+  }
+  h2.about-hl { white-space:normal; margin-left:0 !important; width:auto !important; font-size:clamp(2.8rem,13vw,4.5rem); }
+  .about-body {
+    max-width: 100%;
+    font-size: clamp(.78rem,3.2vw,.88rem);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+  .portrait-wrap { justify-content: flex-start; }
+  .portrait {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 18px;
+  }
+  .portrait img { object-position: center center; }
+  .about-avail { grid-column: auto; padding-top: 1.2rem; padding-bottom: 0; }
+
+  /* ── FOOTER ── */
+  footer {
+    flex-direction: column;
+    gap: 1.2rem;
+    text-align: center;
+    padding: 2rem var(--pad);
+  }
+  .foot-links { gap: 1.2rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- Custom hero cursor -->
+<div class="hero-cursor" id="heroCursor"><span class="hero-cursor-pill">Se mitt showreel</span></div>
+<!-- Projekt card cursor -->
+<div class="pcard-cursor" id="pcardCursor"><span class="pcard-cursor-pill" id="pcardCursorText"></span></div>
+
+<nav id="sitenav">
+  <ul class="nav-pill">
+    <li><a href="mailto:hej.isalindholm@gmail.com" class="nav-cta">Hör av dig</a></li>
+  </ul>
+  <ul class="nav-pill">
+    <li><a href="#work">Projekt</a></li>
+    <li><a href="#exp">Erfarenhet</a></li>
+    <li><a href="#about">Om mig</a></li>
+  </ul>
+</nav>
+<!-- Mobile top bar + hamburger -->
+<div class="mob-bar" id="mobBar">
+  <button class="ham-btn" id="hamBtn" aria-label="Meny">
+    <span></span><span></span>
+  </button>
+</div>
+<div class="mob-menu" id="mobMenu">
+  <a href="#work" class="mob-link">Projekt</a>
+  <a href="#exp" class="mob-link">Erfarenhet</a>
+  <a href="#about" class="mob-link">Om mig</a>
+  <a href="mailto:hej.isalindholm@gmail.com" class="mob-cta mob-link">Hör av dig</a>
+</div>
+
+<div class="hero-frame">
+<section class="hero">
+  <div class="hero-bg"></div>
+  <svg class="deco-star deco-star-1" viewBox="0 0 24 24"><path d="M12 0L13.8 10.2L24 12L13.8 13.8L12 24L10.2 13.8L0 12L10.2 10.2Z"/></svg>
+  <svg class="deco-star deco-star-2" viewBox="0 0 24 24"><path d="M12 0L13.8 10.2L24 12L13.8 13.8L12 24L10.2 13.8L0 12L10.2 10.2Z"/></svg>
+  <svg class="deco-star deco-star-3" viewBox="0 0 24 24"><path d="M12 0L13.8 10.2L24 12L13.8 13.8L12 24L10.2 13.8L0 12L10.2 10.2Z"/></svg>
+  <svg class="deco-star deco-star-4" viewBox="0 0 24 24"><path d="M12 0L13.8 10.2L24 12L13.8 13.8L12 24L10.2 13.8L0 12L10.2 10.2Z"/></svg>
+  <svg class="deco-star deco-star-5" viewBox="0 0 24 24"><path d="M12 0L13.8 10.2L24 12L13.8 13.8L12 24L10.2 13.8L0 12L10.2 10.2Z"/></svg>
+  <video class="hero-gif" id="heroVid" autoplay loop muted playsinline></video>
+  <script>
+    (function(){
+      var v = document.getElementById('heroVid');
+      function setSrc(){
+        var src = window.innerWidth <= 768 ? 'showreel_mobil.mp4' : 'showreel.mp4';
+        if(v.getAttribute('src') !== src){ v.src = src; }
+      }
+      setSrc();
+      window.addEventListener('resize', setSrc, {passive:true});
+    })();
+  </script>
+  <div class="hero-overlay"></div>
+  <picture>
+    <source media="(max-width:768px)" srcset="overlay_mobilny.png">
+    <img class="hero-frame-overlay" src="over_hero3.png" alt="">
+  </picture>
+  <div class="hero-bottom">
+</section>
+<div class="hero-cover"></div>
+</div><!-- /.hero-frame -->
+
+<div class="page-wrap">
+<div class="work-frame panel">
+<section class="work-panel" id="work">
+  <div class="work-spacer"></div>
+  <div class="work-header reveal">
+    <h2 class="work-title reveal">Utvalda projekt.</h2>
+  </div>
+  <div class="proj-grid">
+    <!-- col1: grafisk + dino -->
+    <div class="proj-col">
+      <div class="pcard-reveal">
+        <a href="projekt_sida.html?id=grafisk" class="pcard" data-pcard><div class="pcard-img" style="aspect-ratio:3/4"><img class="pcard-thumb" src="Framsidor/utter-01.webp" alt="Grafiska inlägg" decoding="async"></div></a>
+      </div>
+      <div class="pcard-reveal">
+        <a href="projekt_sida.html?id=dino" class="pcard" data-pcard><div class="pcard-img" style="aspect-ratio:4/3"><video class="pcard-thumb" preload="none" src="Framsidor/dino.mp4" autoplay loop muted playsinline></video></div></a>
+      </div>
+    </div>
+    <!-- col2: tsbn + simmare + hoppas -->
+    <div class="proj-col">
+      <div class="pcard-reveal">
+        <a href="projekt_sida.html?id=tsbn" class="pcard" data-pcard><div class="pcard-img" style="aspect-ratio:4/3"><video class="pcard-thumb" preload="none" src="Framsidor/TSBN.mp4" autoplay loop muted playsinline></video></div></a>
+      </div>
+      <div class="pcard-reveal">
+        <a href="projekt_sida.html?id=simmare" class="pcard" data-pcard><div class="pcard-img" style="aspect-ratio:4/5"><video class="pcard-thumb" preload="none" src="Framsidor/simmare.mp4" autoplay loop muted playsinline></video></div></a>
+      </div>
+      <div class="pcard-reveal">
+        <a href="projekt_sida.html?id=hoppas" class="pcard" data-pcard><div class="pcard-img" style="aspect-ratio:4/3"><video class="pcard-thumb" preload="none" src="Framsidor/hoppas.mp4" autoplay loop muted playsinline></video></div></a>
+      </div>
+    </div>
+    <!-- col3: kunskaps + fraga -->
+    <div class="proj-col">
+      <div class="pcard-reveal">
+        <a href="projekt_sida.html?id=kunskaps" class="pcard" data-pcard><div class="pcard-img" style="aspect-ratio:3/4"><video class="pcard-thumb" preload="none" src="Framsidor/kunskap.mp4" autoplay loop muted playsinline></video></div></a>
+      </div>
+      <div class="pcard-reveal">
+        <a href="projekt_sida.html?id=fraga" class="pcard" data-pcard><div class="pcard-img" style="aspect-ratio:4/3"><video class="pcard-thumb" preload="none" src="Framsidor/FN.mp4" autoplay loop muted playsinline></video></div></a>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="section-cover" style="--cover-bg:#fff"></div>
+</div><!-- /.work-frame -->
+
+<section class="panel exp-panel" id="exp">
+  <div class="exp-scroll-driver">
+    <div class="exp-sticky">
+      <div class="exp-heading-wrap">
+        <h2 class="exp-hl">Min erfarenhet.</h2>
+      </div>
+      <div class="exp-fan" id="expFan">
+        <div class="exp-fan-card ec-1" data-ei="0">
+          <span class="exp-chip">2025 – nu</span>
+          <p class="exp-company">Naturhistoriska riksmuseet</p>
+          <p class="exp-desc">Ansvarar för hela innehållskedjan på Instagram och TikTok — idé, research, inspelning, redigering, publicering. 3,5 miljoner visningar.</p>
+          <p class="exp-meta">Social media manager · Konsult</p>
+        </div>
+        <div class="exp-fan-card ec-2" data-ei="1">
+          <span class="exp-chip">2023 – 2025</span>
+          <p class="exp-company">Frilansprojekt</p>
+          <p class="exp-desc">Motion design och grafisk design. Animationer för Uppsala Life, illustrationer för Engin med mera.</p>
+          <p class="exp-meta">Grafisk design &amp; animation · Frilans</p>
+        </div>
+        <div class="exp-fan-card ec-3" data-ei="2">
+          <span class="exp-chip">2024 – 2025</span>
+          <p class="exp-company">Hyper Island</p>
+          <p class="exp-desc">Motion Creative i Stockholm — animation, rörlig kommunikation och konceptutveckling. Projektbaserat och hands-on.</p>
+          <p class="exp-meta">Motion Creative-student · Heltid</p>
+        </div>
+        <div class="exp-fan-card ec-4" data-ei="3">
+          <span class="exp-chip">2020 – 2023</span>
+          <p class="exp-company">Linköpings universitet</p>
+          <p class="exp-desc">Kandidatexamen i grafisk design och kommunikation. Typografi, identitet, formgivning och kommunikationsteori.</p>
+          <p class="exp-meta">Grafisk design &amp; kommunikation · Kandidat</p>
+        </div>
+      </div>
+    </div><!-- /.exp-sticky -->
+  </div><!-- /.exp-scroll-driver -->
+  <div class="section-cover" style="--cover-bg:#4b7cbc"></div>
+</section>
+
+<section class="panel about-panel" id="about">
+  <div class="about-scroll-driver">
+  <div class="about-sticky">
+  <div class="about-heading-wrap">
+    <h2 class="about-hl reveal reveal-d1">Kreativ och nyfiken.</h2>
+  </div>
+  <div class="about-inner">
+    <div class="reveal">
+      <p class="about-body">Jag har ritat så länge jag kan minnas. På förskolan tog jag tatueringsbeställningar från kompisarna med tuschpennor. Den karriären tog en vändning, men känslan för form följde med hela vägen till animation, content och grafisk design.<br><br>Nu jobbar jag med rörlig grafik och innehåll som faktiskt når fram. Trivs bäst när projektet är lite svårt, målgruppen är bred och ingen riktigt vet hur det ska bli från början.<br><br>Jag nördar gärna ner mig när något väcker mitt intresse. Det kan vara sekelskiftets historia, dinosaurier eller hela Tolkiens mytologi. Gillar också att testa på nya saker, just nu freestylear jag en odling som faktiskt går toppen. Jag tror det är ungefär samma sak som gör mig bra på mitt jobb: jag är nyfiken, gillar att testa mig fram och lär mig snabbt när något är nytt.</p>
+      <a href="Isa_CV.pdf" download class="cv-btn reveal reveal-d2">Ladda ner mitt CV</a>
+    </div>
+    <div class="photo-stack-wrap">
+      <div class="photo-stack" id="photoStack">
+        <div class="photo-card" data-i="0"><img src="om_mig/Bilder_pa_mig/bild_pa_mig.webp" alt="Isa Lindholm"></div>
+        <div class="photo-card" data-i="1"><img src="om_mig/Bilder_pa_mig/IMG_0305.jpg" alt="Isa Lindholm"></div>
+        <div class="photo-card" data-i="2"><img src="om_mig/Bilder_pa_mig/IMG_5676.jpg" alt="Isa Lindholm"></div>
+      </div>
+    </div>
+    <div class="avail about-avail reveal reveal-d3"><span class="avail-dot"></span> Öppen för uppdrag</div>
+  </div>
+  </div><!-- /.about-sticky -->
+  </div><!-- /.about-scroll-driver -->
+</section>
+
+<footer>
+  <div class="foot-links">
+    <a href="https://www.linkedin.com/in/isa-lindholm-9b4313180/" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="mailto:hej.isalindholm@gmail.com">hej.isalindholm@gmail.com</a>
+  </div>
+  <span class="foot-copy">© 2026</span>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+const nav = document.getElementById('sitenav');
+window.addEventListener('scroll', function() {
+  nav.classList.toggle('scrolled', window.scrollY > window.innerHeight * 0.75);
+}, {passive:true});
+
+const revObs = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) { if(e.isIntersecting) e.target.classList.add('in'); });
+}, {threshold:0.05, rootMargin:"0px 0px -60px 0px"});
+document.querySelectorAll('.reveal').forEach(function(el) { revObs.observe(el); });
+// Exp fan — kort flyger in en och en via scroll
+(function(){
+  var driver = document.querySelector('.exp-scroll-driver');
+  var fan    = document.getElementById('expFan');
+  if(!driver || !fan) return;
+  var cards = Array.from(fan.querySelectorAll('.exp-fan-card'));
+  var thresholds = [0.05, 0.28, 0.52, 0.76];
+  var landed = cards.map(function(){ return false; });
+  function check(){
+    var rect  = driver.getBoundingClientRect();
+    var total = driver.offsetHeight - window.innerHeight;
+    var progress = Math.max(0, Math.min(1, -rect.top / total));
+    cards.forEach(function(card, i){
+      if(!landed[i] && progress >= thresholds[i]){ landed[i]=true; card.classList.add('landed'); }
+    });
+  }
+  window.addEventListener('scroll', check, {passive:true});
+  check();
+})();
+
+// Exp-hl auto-fit
+(function(){
+  var title = document.querySelector('.exp-hl');
+  if(!title) return;
+  function fit(){
+    if(window.innerWidth <= 768){ title.style.fontSize = ''; return; }
+    var vw = document.documentElement.clientWidth;
+    title.style.fontSize = '100px';
+    var naturalW = title.scrollWidth;
+    title.style.fontSize = (97 * vw / naturalW) + 'px';
+  }
+  if(document.fonts){ document.fonts.ready.then(fit); } else { setTimeout(fit,200); }
+  window.addEventListener('resize', fit, {passive:true});
+})();
+
+
+// Marquee rullar automatiskt via CSS-animation (se @keyframes marquee-scroll)
+
+// Mobil-omordning av projektkort — ångras automatiskt vid resize
+(function(){
+  var cols = document.querySelectorAll('.proj-col');
+  if(cols.length < 3) return;
+  var col1 = cols[0], col2 = cols[1], col3 = cols[2];
+  // Spara original-referenser vid sidladdning (DOM är fortfarande i ursprungsläge)
+  var grafisk = col1.querySelectorAll('.pcard-reveal')[0];
+  var col2cards = col2.querySelectorAll('.pcard-reveal');
+  var hoppas = col2cards[col2cards.length - 1];
+  var applied = false;
+
+  function applyMobile(){
+    if(applied || !grafisk || !hoppas) return;
+    col2.insertBefore(grafisk, col2.firstChild);
+    col3.appendChild(hoppas);
+    applied = true;
+  }
+
+  function applyDesktop(){
+    if(!applied || !grafisk || !hoppas) return;
+    col1.insertBefore(grafisk, col1.firstChild);
+    col2.appendChild(hoppas);
+    applied = false;
+  }
+
+  function check(){
+    if(window.innerWidth <= 768) applyMobile();
+    else applyDesktop();
+  }
+
+  check();
+  window.addEventListener('resize', check, {passive:true});
+})();
+
+// About drift — frys animation i slutposition när sektionen är scrollad förbi
+(function(){
+  var driver = document.querySelector('.about-scroll-driver');
+  var inner  = document.querySelector('.about-inner');
+  var headWrap = document.querySelector('.about-heading-wrap');
+  if (!driver || !inner) return;
+  var frozen = false;
+  window.addEventListener('scroll', function(){
+    if (frozen) return;
+    var rect = driver.getBoundingClientRect();
+    var total = driver.offsetHeight - window.innerHeight;
+    var p = total > 0 ? Math.max(0, Math.min(1, -rect.top / total)) : 0;
+    if (p >= 0.56) {
+      frozen = true;
+      inner.style.animation = 'none';
+      inner.style.transform = 'translateY(-12vh)';
+      if (headWrap) { headWrap.style.animation = 'none'; headWrap.style.transform = 'translateY(-12vh)'; }
+    }
+  }, {passive:true});
+})();
+
+// About — kort landar progressivt under skrollningen
+(function(){
+  var driver = document.querySelector('.about-scroll-driver');
+  var stack  = document.getElementById('photoStack');
+  if(!driver || !stack) return;
+  var cards = Array.from(stack.querySelectorAll('.photo-card'));
+  var thresholds = [0.08, 0.30, 0.55];
+  var landed = [false,false,false];
+  function check(){
+    var rect  = driver.getBoundingClientRect();
+    var total = driver.offsetHeight - window.innerHeight;
+    var p = Math.max(0, Math.min(1, -rect.top / total));
+    cards.forEach(function(card,i){
+      if(!landed[i] && p >= thresholds[i]){ landed[i]=true; card.classList.add('landed'); }
+    });
+  }
+  window.addEventListener('scroll', check, {passive:true});
+  check();
+})();
+
+// Fit about-hl till 97% av viewport-bredd, centrerad (desktop only)
+(function(){
+  var title = document.querySelector('.about-hl');
+  if(!title) return;
+  function fit(){
+    if(window.innerWidth <= 768){ title.style.fontSize = ''; return; }
+    var vw = document.documentElement.clientWidth;
+    title.style.fontSize = '100px';
+    var naturalW = title.scrollWidth;
+    title.style.fontSize = (97 * vw / naturalW) + 'px';
+  }
+  if(document.fonts){ document.fonts.ready.then(function(){ fit(); setTimeout(fit, 400); }); } else { setTimeout(fit, 200); }
+  window.addEventListener('resize', fit, {passive:true});
+})();
+
+// Fit work-title till nästan full bredd (med sidpadding)
+(function(){
+  var title = document.querySelector('.work-title');
+  if(!title) return;
+  function fit(){
+    if(window.innerWidth <= 768){ title.style.fontSize = ''; return; }
+    title.style.fontSize = '100px';
+    var naturalW = title.scrollWidth;
+    title.style.fontSize = (97 * document.documentElement.clientWidth / naturalW) + 'px';
+  }
+  if(document.fonts){ document.fonts.ready.then(function(){ fit(); setTimeout(fit, 400); }); } else { setTimeout(fit, 200); }
+  window.addEventListener('resize', fit, {passive:true});
+})();
+
+
+// Proj grid card reveal — triggas bara vid scroll, inte vid sidladdning
+(function(){
+  var reveals = document.querySelectorAll('.pcard-reveal');
+  if(!reveals.length) return;
+
+  function setup(){
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){
+      reveals.forEach(function(el){
+        var h = el.offsetHeight;
+        if(h < 10) return;
+        el.dataset.fullH = h;
+        // Kort redan synliga vid laddning visas direkt i full höjd
+        var rect = el.getBoundingClientRect();
+        if(rect.top < window.innerHeight - 40){
+          el.dataset.done = '1';
+        } else {
+          el.style.height = Math.round(h * 0.6) + 'px';
+        }
+      });
+
+      function check(){
+        reveals.forEach(function(el){
+          if(el.dataset.done || !el.dataset.fullH) return;
+          var rect = el.getBoundingClientRect();
+          if(rect.top < window.innerHeight - 40){
+            el.dataset.done = '1';
+            el.style.height = el.dataset.fullH + 'px';
+          }
+        });
+      }
+      window.addEventListener('scroll', check, {passive:true});
+    }); });
+  }
+
+  if(document.readyState === 'complete'){ setup(); }
+  else { window.addEventListener('load', setup); }
+})();
+
+// Mobile hamburger
+const hamBtn = document.getElementById('hamBtn');
+const mobMenu = document.getElementById('mobMenu');
+if (hamBtn && mobMenu) {
+  hamBtn.addEventListener('click', function() {
+    hamBtn.classList.toggle('open');
+    mobMenu.classList.toggle('open');
+  });
+  mobMenu.querySelectorAll('.mob-link').forEach(function(a) {
+    a.addEventListener('click', function() {
+      hamBtn.classList.remove('open');
+      mobMenu.classList.remove('open');
+    });
+  });
+  // Close on click outside the links/button
+  mobMenu.addEventListener('click', function(e) {
+    if (!e.target.closest('a')) {
+      hamBtn.classList.remove('open');
+      mobMenu.classList.remove('open');
+    }
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      hamBtn.classList.remove('open');
+      mobMenu.classList.remove('open');
+    }
+  });
+}
+
+// Nav + hamburger hide-on-scroll-down, show-on-scroll-up
+(function(){
+  var nav = document.getElementById('sitenav');
+  var ham = document.getElementById('hamBtn');
+  if(!nav && !ham) return;
+  var lastY = 0;
+  window.addEventListener('scroll', function(){
+    var y = window.scrollY;
+    var bar = document.getElementById('mobBar');
+    if(y > lastY && y > 80){
+      if(nav) nav.classList.add('nav-hidden');
+      if(bar) bar.style.transform = 'translateY(-110%)';
+    } else {
+      if(nav) nav.classList.remove('nav-hidden');
+      if(bar) bar.style.transform = '';
+    }
+    lastY = y;
+  }, {passive:true});
+})();
+
+// Custom hero cursor
+// Shuffle all 8 combos and assign one to hero pill, rest to project cards
+var allCombos = (function() {
+  var combos = [
+    { bg: '#f3ccce', color: '#3c7c6b' },
+    { bg: '#3c7c6b', color: '#f3ccce' },
+    { bg: '#d4e8f7', color: '#8a2747' },
+    { bg: '#8a2747', color: '#d4e8f7' },
+    { bg: '#4b7cbc', color: '#fce084' },
+    { bg: '#fce084', color: '#4b7cbc' },
+    { bg: '#ffe59c', color: '#db7138' },
+    { bg: '#db7138', color: '#ffe59c' }
+  ];
+  for (var i = combos.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = combos[i]; combos[i] = combos[j]; combos[j] = tmp;
+  }
+  return combos;
+})();
+
+// Hero cursor + click
+(function() {
+  var cursor = document.getElementById('heroCursor');
+  var heroPill = cursor ? cursor.querySelector('.hero-cursor-pill') : null;
+  if (heroPill) {
+    heroPill.style.background = allCombos[0].bg;
+    heroPill.style.color = allCombos[0].color;
+  }
+  var heroSection = document.querySelector('.hero');
+  var heroFrame = document.querySelector('.hero-frame');
+  if (!cursor || !heroSection) return;
+
+  document.addEventListener('mousemove', function(e) {
+    var mx = e.clientX, my = e.clientY;
+    cursor.style.transform = 'translate(' + (mx + 14) + 'px,' + (my + 10) + 'px)';
+    var rect = heroSection.getBoundingClientRect();
+    var inside = mx >= rect.left && mx <= rect.right && my >= rect.top && my <= rect.bottom;
+    cursor.style.opacity = inside ? '1' : '0';
+  });
+
+  document.addEventListener('mouseleave', function() { cursor.style.opacity = '0'; });
+
+  window.addEventListener('scroll', function() {
+    var rect = heroSection.getBoundingClientRect();
+    if (rect.bottom <= 0) cursor.style.opacity = '0';
+  }, {passive:true});
+
+  if (heroFrame) heroFrame.addEventListener('click', function() {
+    window.location.href = 'showreel_egen.html';
+  });
+})();
+
+// Projekt card pill cursor
+(function() {
+  var pill = document.getElementById('pcardCursor');
+  var pillText = document.getElementById('pcardCursorText');
+  if (!pill || !pillText) return;
+
+  var projectOrder = ['grafisk','dino','tsbn','simmare','hoppas','kunskaps','fraga'];
+  var projectTitles = {
+    grafisk:  'Grafiska inlägg',
+    dino:     'Jurassic Park – Nightfall',
+    tsbn:     'Tre ska bli noll',
+    simmare:  'Abort – steg för steg',
+    hoppas:   'Pass the ball',
+    kunskaps: 'Kunskapsinlägg',
+    fraga:    'Fråga naturhistoriska'
+  };
+  var projects = {};
+  projectOrder.forEach(function(id, i) {
+    var c = allCombos[i + 1];
+    projects[id] = { title: projectTitles[id], bg: c.bg, color: c.color };
+  });
+
+  document.addEventListener('mousemove', function(e) {
+    pill.style.transform = 'translate(' + (e.clientX + 14) + 'px,' + (e.clientY + 10) + 'px)';
+  });
+
+  document.querySelectorAll('.pcard[data-pcard]').forEach(function(card) {
+    var href = card.getAttribute('href') || '';
+    var m = href.match(/id=(\w+)/);
+    var id = m ? m[1] : '';
+    var proj = projects[id];
+    if (!proj) return;
+
+    card.addEventListener('mouseenter', function() {
+      pillText.textContent = proj.title;
+      pillText.style.background = proj.bg;
+      pillText.style.color = proj.color;
+      pill.style.opacity = '1';
+    });
+    card.addEventListener('mouseleave', function() {
+      pill.style.opacity = '0';
+    });
+  });
+})();
+</script>
+
+</div>
+</body>
+</html>

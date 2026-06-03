@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Showreel – Isa Lindholm</title>
+<link rel="icon" href="thumbnail.png" type="image/png">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;font-family:sans-serif;overflow:hidden}
+
+.back{position:fixed;top:1.6rem;left:1.8rem;z-index:10;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;opacity:.85;transition:opacity .2s}
+.back:hover{opacity:1}
+.back svg{width:36px;height:36px;stroke:currentColor;fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+
+.video-wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+video{width:100%;height:100%;object-fit:contain}
+</style>
+</head>
+<body>
+
+<a href="isa_lindholm_v70.html" class="back" id="backBtn">
+  <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+</a>
+
+<div class="video-wrap">
+  <video controls>
+    <source src="showreel.mp4" type="video/mp4">
+  </video>
+</div>
+
+<script>
+(function(){
+  var combos = [
+    { bg: '#f3ccce', fg: '#3c7c6b' },
+    { bg: '#3c7c6b', fg: '#f3ccce' },
+    { bg: '#d4e8f7', fg: '#8a2747' },
+    { bg: '#8a2747', fg: '#d4e8f7' },
+    { bg: '#4b7cbc', fg: '#fce084' },
+    { bg: '#fce084', fg: '#4b7cbc' },
+    { bg: '#ffe59c', fg: '#db7138' },
+    { bg: '#db7138', fg: '#ffe59c' }
+  ];
+  var c = combos[Math.floor(Math.random() * combos.length)];
+  document.body.style.background = c.bg;
+  document.getElementById('backBtn').style.color = c.fg;
+})();
+</script>
+
+</body>
+</html>

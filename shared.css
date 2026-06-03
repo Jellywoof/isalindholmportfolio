@@ -4,66 +4,80 @@
    Sidspecifika stilar hålls i varje HTML-fils egna <style>-block.
    ================================================================ */
 
+/* ── FONTS ── */
+@font-face{font-family:'PPSupplySans';src:url('fonts/PPSupplySans-Regular.otf') format('opentype');font-weight:400;font-style:normal}
+@font-face{font-family:'PPSupplySans';src:url('fonts/PPSupplySans-Ultralight.otf') format('opentype');font-weight:200;font-style:normal}
+@font-face{font-family:'NeueMontreal';src:url('fonts/NeueMontreal_0.otf') format('opentype');font-weight:400;font-style:normal}
+@font-face{font-family:'NeueMontreal';src:url('fonts/NeueMontreal_1.otf') format('opentype');font-weight:700;font-style:normal}
+
 /* ── RESET ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 
 /* ── DELADE VARIABLER ── */
 :root {
-  --arb: 'arboria', sans-serif;
-  --nm:  'Neue Montreal', sans-serif;
+  --arb: 'PPSupplySans', sans-serif;
+  --nm:  'NeueMontreal', sans-serif;
   --dark: #181818;
   --white: #fff;
   --pad: clamp(1.4rem, 5vw, 5rem);
 }
 
-/* ── NAV – baslayout (gemensam position/struktur) ── */
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 300;
-  display: flex; justify-content: center; align-items: center;
-  padding: 1.2rem var(--pad);
+/* ── NAV – vit bar, hide-on-scroll ── */
+#sitenav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+  display: flex; justify-content: space-between; align-items: center;
+  background: #fff; padding: .65rem 2.5rem;
+  border-bottom: none;
+  transition: transform .35s cubic-bezier(.4,0,.2,1);
 }
+#sitenav.nav-hidden { transform: translateY(-110%); }
 
-/* ── NAV PILL – standardutseende (statiska sidor) ── */
+/* ── NAV PILL ── */
 .nav-pill {
   display: flex; align-items: center; list-style: none;
-  background: rgba(255,255,255,.35);
-  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255,255,255,.5);
-  border-radius: 100px; padding: 5px 5px 5px 18px;
+  background: none; border: none; padding: 0;
 }
-.nav-pill li { padding: 0 1.4rem; }
-.nav-pill li:last-child { padding: 0; }
 .nav-pill li a {
+  display: block; padding: 8px 18px;
   text-decoration: none; color: var(--dark);
-  font-size: .68rem; letter-spacing: .08em; text-transform: uppercase;
-  font-weight: 400; opacity: .6; transition: opacity .2s;
+  font-family: var(--nm);
+  font-size: .8rem; letter-spacing: .06em; text-transform: uppercase;
+  font-weight: 400; opacity: 1; transition: opacity .2s;
 }
-.nav-pill li a:hover { opacity: 1; }
+.nav-pill li a:hover { opacity: .6; }
 
 /* ── NAV CTA-knapp ── */
-.nav-cta {
-  display: inline-flex; align-items: center;
-  background: var(--dark); color: white !important;
-  padding: 9px 22px; border-radius: 100px;
-  font-size: .68rem; font-weight: 600; letter-spacing: .06em;
-  text-transform: uppercase; text-decoration: none;
-  white-space: nowrap; opacity: 1 !important; transition: all .3s;
+.nav-pill li a.nav-cta {
+  background: var(--dark); color: #fff !important;
+  padding: 10px 22px; border-radius: 0;
+  font-size: .8rem; font-weight: 600; letter-spacing: .08em;
+  opacity: 1 !important;
+}
+.nav-pill li a.nav-cta:hover { opacity: .85 !important; }
+
+/* ── MOBIL TOPBAR ── */
+.mob-bar {
+  display: none;
+  position: fixed; top: 0; left: 0; right: 0; z-index: 400;
+  background: #fff;
+  height: 52px;
+  align-items: center; justify-content: flex-end;
+  padding: 0 1.2rem;
+  transition: transform .35s cubic-bezier(.4,0,.2,1);
 }
 
 /* ── HAMBURGER-KNAPP ── */
 .ham-btn {
-  display: none;
-  position: fixed; top: 1rem; right: 1.2rem; z-index: 400;
-  width: 46px; height: 46px; border-radius: 50%;
-  background: rgba(255,255,255,.65); backdrop-filter: blur(14px);
-  border: 1px solid rgba(0,0,0,.12);
-  flex-direction: column; justify-content: center; align-items: center;
-  gap: 5px; cursor: pointer;
+  display: flex;
+  width: 44px; height: 44px;
+  background: none; border: none;
+  flex-direction: column; justify-content: center; align-items: flex-end;
+  gap: 7px; cursor: pointer; padding: 4px;
 }
 .ham-btn span {
-  display: block; width: 20px; height: 2px;
-  background: var(--dark); border-radius: 2px; transition: all .3s;
+  display: block; height: 2px; width: 26px;
+  background: var(--dark); border-radius: 1px; transition: all .3s;
 }
 
 /* ── MOBILMENY ── */
@@ -94,5 +108,6 @@ nav {
 /* ── MOBILBRYTPUNKT ── */
 @media (max-width: 768px) {
   nav { display: none; }
-  .ham-btn { display: flex !important; }
+  #sitenav { display: none !important; }
+  .mob-bar { display: flex !important; }
 }

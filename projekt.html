@@ -153,10 +153,12 @@
 
 <nav id="sitenav">
   <ul class="nav-pill">
-    <li><a href="projekt.html" class="active">Projekt</a></li>
+    <li><a href="mailto:hej.isalindholm@gmail.com" class="nav-cta">Hör av dig</a></li>
+  </ul>
+  <ul class="nav-pill">
+    <li><a href="isa_lindholm_v70.html#work">Projekt</a></li>
     <li><a href="isa_lindholm_v70.html#exp">Erfarenhet</a></li>
     <li><a href="isa_lindholm_v70.html#about">Om mig</a></li>
-    <li><a href="mailto:hej.isalindholm@gmail.com" class="nav-cta">Hör av dig</a></li>
   </ul>
 </nav>
 <button class="ham-btn" id="hamBtn" aria-label="Meny"><span></span><span></span><span></span></button>
@@ -310,6 +312,19 @@
   /* Initial state: "Allt" is visually active */
   applyStyles();
 }());
+
+// Nav hide-on-scroll
+(function(){
+  var nav = document.getElementById('sitenav');
+  if(!nav) return;
+  var lastY = 0;
+  window.addEventListener('scroll', function(){
+    var y = window.scrollY;
+    if(y > lastY && y > 200){ nav.classList.add('nav-hidden'); }
+    else { nav.classList.remove('nav-hidden'); }
+    lastY = y;
+  }, {passive:true});
+})();
 </script>
 </body>
 </html>

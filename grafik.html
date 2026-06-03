@@ -73,7 +73,7 @@
     background: rgba(183,214,237,.75);
   }
   .mob-menu.open { display: flex; backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px); }
-  .mob-link { font-family: var(--arb); font-size: 1.4rem; font-weight: 700; letter-spacing: -.01em; color: var(--blue); text-decoration: none; }
+  .mob-link { font-family: var(--arb); font-size: 1.4rem; font-weight: 700; letter-spacing: .04em; color: var(--blue); text-decoration: none; }
 
   /* ── PAGE HEADER ── */
   .pg-header {
@@ -88,7 +88,7 @@
     font-family: var(--arb);
     font-size: clamp(2.8rem, 7vw, 6rem);
     font-weight: 700; line-height: .92;
-    letter-spacing: -.03em; color: var(--blue);
+    letter-spacing: .04em; color: var(--blue);
     max-width: 14ch;
   }
   .pg-title em { font-style: italic; }
@@ -163,7 +163,7 @@
     font-family: var(--arb);
     font-size: clamp(1.8rem, 3vw, 2.6rem);
     font-weight: 700; line-height: .95;
-    letter-spacing: -.025em;
+    letter-spacing: .04em;
   }
   .series-title em { font-style: italic; }
   .series-desc {
@@ -198,7 +198,7 @@
     display: flex; flex-direction: column; align-items: flex-start; gap: 1.8rem;
   }
   .closing-eyebrow { font-size: .55rem; letter-spacing: .28em; text-transform: uppercase; font-weight: 500; color: var(--pink); opacity: .6; display: block; }
-  .closing-title { font-family: var(--arb); font-size: clamp(2.2rem, 5vw, 4.5rem); font-weight: 700; line-height: .95; letter-spacing: -.03em; color: var(--pink); }
+  .closing-title { font-family: var(--arb); font-size: clamp(2.2rem, 5vw, 4.5rem); font-weight: 700; line-height: .95; letter-spacing: .04em; color: var(--pink); }
   .closing-title em { font-style: italic; color: var(--yellow); }
   .closing-links { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: .5rem; }
   .closing-link { display: inline-flex; align-items: center; padding: 11px 24px; border-radius: 100px; font-size: .7rem; font-weight: 500; letter-spacing: .05em; text-transform: uppercase; text-decoration: none; transition: all .25s; }
@@ -225,11 +225,12 @@
 
 <nav id="sitenav">
   <ul class="nav-pill">
-    <li><a href="projekt.html">Projekt</a></li>
-    <li><a href="grafik.html" class="active">Grafik</a></li>
-    <li><a href="isa_lindholm_v66.html#exp">Erfarenhet</a></li>
-    <li><a href="isa_lindholm_v66.html#about">Om mig</a></li>
     <li><a href="mailto:hej.isalindholm@gmail.com" class="nav-cta">Hör av dig</a></li>
+  </ul>
+  <ul class="nav-pill">
+    <li><a href="isa_lindholm_v70.html#work">Projekt</a></li>
+    <li><a href="isa_lindholm_v70.html#exp">Erfarenhet</a></li>
+    <li><a href="isa_lindholm_v70.html#about">Om mig</a></li>
   </ul>
 </nav>
 <button class="ham-btn" id="hamBtn" aria-label="Meny"><span></span><span></span><span></span></button>
@@ -313,6 +314,19 @@
     });
   });
 }());
+
+// Nav hide-on-scroll
+(function(){
+  var nav = document.getElementById('sitenav');
+  if(!nav) return;
+  var lastY = 0;
+  window.addEventListener('scroll', function(){
+    var y = window.scrollY;
+    if(y > lastY && y > 200){ nav.classList.add('nav-hidden'); }
+    else { nav.classList.remove('nav-hidden'); }
+    lastY = y;
+  }, {passive:true});
+})();
 </script>
 </body>
 </html>

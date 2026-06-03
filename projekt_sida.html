@@ -15,7 +15,7 @@
     --blue: #4b7cbc; --pink: #e6bcbc;
     --cw: 860px;
   }
-  body{font-family:var(--nm);background:var(--white);color:var(--dark)}
+  body{font-family:var(--nm);background:var(--white);color:var(--dark);overflow-x:hidden}
   .nav-cta:hover{background:var(--blue)}
 
   /* HERO */
@@ -43,7 +43,7 @@
 
   /* CONTENT */
   .proj-content{padding-top:clamp(1.8rem,4vw,3rem);padding-bottom:5rem}
-  .proj-title{font-family:var(--arb);font-size:clamp(2.4rem,6vw,4.8rem);font-weight:700;line-height:.95;letter-spacing:-.03em;color:var(--dark);margin-bottom:1rem}
+  .proj-title{font-family:var(--arb);font-size:clamp(2.4rem,6vw,4.8rem);font-weight:700;line-height:.95;letter-spacing:.04em;color:var(--dark);margin-bottom:1rem}
   .proj-tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:3rem}
   .proj-tag{display:inline-block;padding:6px 15px;border-radius:100px;font-size:.64rem;font-weight:500;letter-spacing:.04em}
   .proj-body{font-size:1.05rem;line-height:1.85;color:rgba(0,0,0,.58)}
@@ -64,7 +64,7 @@
   /* INSTAGRAM CAROUSEL */
   .insta-section{padding-bottom:5rem}
   .insta-header-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.4rem}
-  .insta-heading{font-family:var(--arb);font-size:clamp(1.2rem,3vw,1.8rem);font-weight:700;letter-spacing:-.02em;color:var(--dark)}
+  .insta-heading{font-family:var(--arb);font-size:clamp(1.2rem,3vw,1.8rem);font-weight:700;letter-spacing:.04em;color:var(--dark)}
   .insta-nav-btns{display:flex;gap:.5rem}
   .insta-btn{width:40px;height:40px;border-radius:50%;border:1.5px solid rgba(0,0,0,.15);background:none;cursor:pointer;font-size:1rem;color:var(--dark);display:flex;align-items:center;justify-content:center;transition:all .2s}
   .insta-btn:hover{border-color:var(--dark);background:var(--dark);color:#fff}
@@ -95,9 +95,9 @@
 
   /* FOOTER / PROJECT NAV */
   .proj-footer{background:#b7d6ed;padding:clamp(2.5rem,5vw,4rem) 0;display:flex;flex-direction:column;align-items:center;gap:2rem}
-  .proj-footer-nav{display:grid;grid-template-columns:1fr 1fr;gap:clamp(8rem,40vw,40rem);width:100%;padding:0 var(--pad)}
-  #proj-prev-wrap{display:flex;justify-content:flex-end;align-items:center}
-  #proj-next-wrap{display:flex;justify-content:flex-start;align-items:center}
+  .proj-footer-nav{display:flex;justify-content:space-between;align-items:center;width:100%;padding:0 var(--pad)}
+  #proj-prev-wrap{display:flex;align-items:center}
+  #proj-next-wrap{display:flex;align-items:center}
   .proj-footer-copy{font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;color:#842121;opacity:.4;text-align:center}
   /* Delade stilar för båda knappar */
   .proj-prev,.proj-next{display:flex;align-items:center;gap:1rem;text-decoration:none;color:#842121;transition:opacity .25s}
@@ -106,7 +106,7 @@
   .proj-prev-thumb img,.proj-next-thumb img{width:100%;height:100%;object-fit:cover;display:block}
   .proj-prev-meta,.proj-next-meta{display:flex;flex-direction:column;gap:.3rem}
   .proj-prev-eyebrow,.proj-next-eyebrow{font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;opacity:.45;display:block}
-  .proj-prev-title,.proj-next-title{font-family:var(--arb);font-size:clamp(1.1rem,2.5vw,1.7rem);font-weight:700;letter-spacing:-.02em;line-height:1;display:block;white-space:nowrap}
+  .proj-prev-title,.proj-next-title{font-family:var(--arb);font-size:clamp(1.1rem,2.5vw,1.7rem);font-weight:700;letter-spacing:.04em;line-height:1;display:block;white-space:nowrap}
 
   @media(max-width:768px){
     .proj-hero{height:55vw;min-height:260px}
@@ -125,10 +125,12 @@
 
 <nav id="sitenav">
   <ul class="nav-pill">
-    <li><a href="projekt.html">Projekt</a></li>
+    <li><a href="mailto:hej.isalindholm@gmail.com" class="nav-cta">Hör av dig</a></li>
+  </ul>
+  <ul class="nav-pill">
+    <li><a href="isa_lindholm_v70.html#work">Projekt</a></li>
     <li><a href="isa_lindholm_v70.html#exp">Erfarenhet</a></li>
     <li><a href="isa_lindholm_v70.html#about">Om mig</a></li>
-    <li><a href="mailto:hej.isalindholm@gmail.com" class="nav-cta">Hör av dig</a></li>
   </ul>
 </nav>
 <button class="ham-btn" id="hamBtn" aria-label="Meny"><span></span><span></span><span></span></button>
@@ -759,6 +761,19 @@ function getNextProject(currentId) {
     });
   }
 
+})();
+
+// Nav hide-on-scroll
+(function(){
+  var nav = document.getElementById('sitenav');
+  if(!nav) return;
+  var lastY = 0;
+  window.addEventListener('scroll', function(){
+    var y = window.scrollY;
+    if(y > lastY && y > 200){ nav.classList.add('nav-hidden'); }
+    else { nav.classList.remove('nav-hidden'); }
+    lastY = y;
+  }, {passive:true});
 })();
 </script>
 </body>

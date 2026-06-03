@@ -104,7 +104,7 @@ h2.work-title em{font-style:italic;color:#b7d6ed;-webkit-text-stroke:1.5px #8421
 .pcard-reveal{border-radius:14px;overflow:hidden;transition:height 2.2s cubic-bezier(.16,1,.3,1)}
 
 /* EXP FAN */
-.exp-panel{background:var(--white);position:relative;z-index:2}
+.exp-panel{background:var(--white);position:relative;z-index:20}
 .exp-scroll-driver{height:300vh}
 .exp-heading-wrap{padding:clamp(.3rem,.8vw,.8rem) 0 0;text-align:center;overflow:hidden}
 .exp-eyebrow{font-family:var(--nm);font-size:.52rem;letter-spacing:.28em;text-transform:uppercase;font-weight:500;opacity:.35;margin-bottom:.6rem;display:block}
@@ -140,16 +140,16 @@ h2.exp-hl{font-family:var(--arb);font-weight:700;font-size:10vw;color:var(--dark
 .about-panel{background:var(--c3-bg);box-shadow:none;z-index:3}
 .about-scroll-driver{height:500vh;view-timeline:--about-tl block}
 .about-sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column}
-.about-inner{padding:clamp(2rem,4vw,4rem) var(--pad) clamp(4rem,7vw,7rem);display:grid;grid-template-columns:1fr 1fr;gap:clamp(3rem,6vw,6rem);align-items:center;flex:1;animation:about-drift linear both;animation-timeline:--about-tl;animation-range:entry 0% cover 55%}
-.about-heading-wrap{padding:clamp(1.5rem,3vw,3rem) 0 0;text-align:center;animation:about-drift linear both;animation-timeline:--about-tl;animation-range:entry 0% cover 55%}
-@keyframes about-drift{from{transform:translateY(12vh)}to{transform:translateY(-12vh)}}
+.about-inner{padding:clamp(3rem,5.5vw,5.5rem) var(--pad) clamp(2rem,4vw,4rem);display:grid;grid-template-columns:1fr 1fr;gap:clamp(3rem,6vw,6rem);align-items:center;flex:1;animation:about-drift linear both;animation-timeline:--about-tl;animation-range:entry 0% cover 55%}
+.about-heading-wrap{padding:clamp(.2rem,.5vw,.5rem) 0 0;text-align:center;animation:about-drift linear both;animation-timeline:--about-tl;animation-range:entry 0% cover 55%}
+@keyframes about-drift{from{transform:translateY(8vh)}to{transform:translateY(-18vh)}}
 .about-eyebrow{font-family:var(--nm);font-size:.52rem;letter-spacing:.28em;text-transform:uppercase;font-weight:500;margin-bottom:1.2rem;display:block;color:rgba(252,224,132,.45)}
 .about-heading-wrap{padding:clamp(1.5rem,3vw,3rem) 0 0;text-align:center}
 h2.about-hl{font-family:var(--arb);font-weight:700;font-size:10vw;color:var(--c3-acc);line-height:.9;letter-spacing:.01em;margin-bottom:0;white-space:nowrap;display:inline-block}
 h2.about-hl em{font-style:italic}
 .about-body{font-family:var(--nm);font-weight:500;font-size:clamp(.98rem,1.4vw,1.08rem);line-height:1.7;color:rgba(252,224,132,.85);max-width:460px;margin-bottom:1.5rem}
-.cv-btn{display:inline-block;margin-top:.5rem;padding:.55rem 1.3rem;border-radius:999px;border:1.5px solid rgba(252,224,132,.5);color:var(--c3-acc);font-family:var(--nm);font-size:.75rem;font-weight:700;letter-spacing:.05em;text-decoration:none;transition:background .2s,color .2s,border-color .2s}
-.cv-btn:hover{background:var(--c3-acc);color:var(--c1-bg);border-color:var(--c3-acc)}
+.cv-btn{display:inline-block;margin-top:.5rem;padding:.55rem 1.3rem;border-radius:999px;border:1.5px solid var(--c3-acc);background:var(--c3-acc);color:var(--c3-bg);font-family:var(--nm);font-size:.75rem;font-weight:700;letter-spacing:.05em;text-decoration:none;transition:opacity .2s}
+.cv-btn:hover{opacity:.85}
 .about-avail{grid-column:1;padding-top:.5rem;padding-bottom:1rem}.avail{display:inline-flex;align-items:center;gap:.6rem;font-family:var(--nm);font-size:.76rem;font-weight:500;color:var(--c3-acc)}
 .avail-dot{width:8px;height:8px;border-radius:50%;background:var(--c3-acc);animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
@@ -211,7 +211,7 @@ footer{background:#fde6a4;padding:2rem var(--pad);display:flex;justify-content:c
 /* ════════════════════════════════════════════
    MOBILE  ≤ 768px
    ════════════════════════════════════════════ */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
 
   /* ── Variables: side padding ── */
   :root { --pad: 1.6rem; }
@@ -219,8 +219,12 @@ footer{background:#fde6a4;padding:2rem var(--pad);display:flex;justify-content:c
 
   /* ── HERO FRAME: no border on mobile ── */
   .hero-frame { overflow: hidden; }
-  .hero { height: 100svh; height: 100vh; border-radius: 0; }
-  nav { padding: .9rem var(--pad); }
+  nav { padding: .6rem var(--pad); }
+  /* Dölj cursors på mobil */
+  .hero-cursor, .pcard-cursor { display: none !important; }
+  /* Ta bort hover-effekter */
+  .pcard:hover { box-shadow: none; }
+  .pcard:hover .pcard-thumb { transform: none; }
   .hero-cover, .section-cover { border-radius: 50% 50% 0 0 / 40px 40px 0 0; }
   .panel { border-radius: 0; margin-top: -2px; }
   /* Dölj deco-stjärnor på mobil — CSS-animationer skapar GPU-lager som kan störa section-cover */
@@ -234,50 +238,55 @@ footer{background:#fde6a4;padding:2rem var(--pad);display:flex;justify-content:c
 
   /* ── HERO: 4:5 ratio, full width, NO rounded bottom corners ── */
   .hero {
+    width: 100%;
     height: auto;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 9 / 16;
     margin: 0;
     border-radius: 0;
+    overflow: hidden;
   }
-  .hero-gif { object-fit: fill; }
-  .hero-frame-overlay { object-fit: fill; }
+  .hero-gif { object-fit: contain; width: 100%; height: 100%; }
+  .hero-frame-overlay { object-fit: contain; width: 100%; height: 100%; }
   .hero-logo img { width: 78vw; }
   .hero-bottom { padding: 0 1.4rem 1.4rem; bottom: 0; }
 
   /* ── WORK ── */
   .work-spacer { height: 2rem; }
-  .work-header { padding: 0 .8rem 1rem; }
-  .work-header { overflow: hidden; }
-  h2.work-title { white-space: normal; margin-left: 0 !important; width: auto !important; font-size: clamp(2.8rem, 13vw, 4.5rem); }
-  /* Mobil: 2-kolumns grid utan row-span — col1+col3 staplas i höger kolumn naturligt */
-  .proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;padding:0 .6rem 3rem;margin-top:0;align-items:start}
+  .work-header { padding: 0 .8rem 1rem; overflow: hidden; }
+  /* Rubriker på mobil — fontstorlek sätts av JS, se nedan */
+  h2.work-title, h2.exp-hl, h2.about-hl { line-height: 1.0; white-space: normal; display: block; width: 100%; margin-left: 0; }
+  /* Mobil: 2-kolumns grid */
+  .proj-grid{display:grid !important;grid-template-columns:1fr 1fr !important;gap:.5rem;padding:0 .6rem 3rem;margin-top:0;align-items:start}
   .proj-col:nth-child(1){grid-column:2;margin-top:1.5rem}
   .proj-col:nth-child(2){grid-column:1;grid-row:1/span 3;margin-top:clamp(2.5rem,6vw,4rem)}
   .proj-col:nth-child(3){grid-column:2;margin-top:0}
+  .proj-col{gap:.5rem !important}
+  .proj-col:nth-child(2) .pcard-reveal:first-child .pcard-img{aspect-ratio:3/4 !important}
   /* Inaktivera höjdanimation på mobil */
-  .pcard-reveal{height:auto!important;transition:none!important}
-  /* Ge första kortet i vänsterkolumnen porträttformat — jämnar ut gridden */
-  .proj-col:nth-child(2) .pcard-reveal:first-child .pcard-img{aspect-ratio:3/4!important}
-  /* Jämna gap i alla kolumner */
-  .proj-col{gap:.5rem!important}
+  .pcard-reveal { height: auto !important; transition: none !important; }
 
   /* ── EXP FAN: mobil ── */
-  .exp-scroll-driver { height: 240vh; }
-  h2.exp-hl { white-space: normal; font-size: clamp(2.8rem,13vw,4.5rem); }
-  .exp-fan { width: 95vw; height: 320px; }
-  .exp-fan-card { width: 140px; height: 240px; padding: 1rem; font-size: .8rem; }
-  .exp-fan-card[data-ei="0"].landed { left:0;   top:20px; transform:rotate(-12deg); }
-  .exp-fan-card[data-ei="1"].landed { left:20%; top:0;    transform:rotate(-4deg);  }
-  .exp-fan-card[data-ei="2"].landed { left:40%; top:10px; transform:rotate(5deg);   }
-  .exp-fan-card[data-ei="3"].landed { left:60%; top:30px; transform:rotate(14deg);  }
+  .exp-scroll-driver { height: 280vh; }
+  .exp-sticky { position: sticky !important; top: 40px !important; height: auto !important; min-height: unset !important; overflow: visible !important; padding: 2rem 0 3rem; display: flex !important; flex-direction: column; align-items: flex-start; }
+  .exp-heading-wrap { overflow: visible; text-align: left; padding: 0 0.8rem; width: 100%; }
+  .exp-fan { width: 95vw; height: 560px; margin-top: 5rem; margin-bottom: 3rem; position: relative; flex-shrink: 0; }
+  .exp-fan-card { width: 210px; height: 245px; padding: .85rem; border-radius: 18px; }
+  .exp-fan-card .exp-chip { font-size: .65rem; padding: 4px 12px; }
+  .exp-fan-card .exp-company { font-size: 1.25rem; }
+  .exp-fan-card .exp-desc { font-size: .72rem; line-height: 1.45; }
+  .exp-fan-card .exp-meta { font-size: .62rem; }
+  /* Korten utspridda vertikalt för tydlig hög — kort 0 överst */
+  .exp-fan-card[data-ei="0"].landed { left:calc(47.5vw - 105px - 50px); top:0px;   transform:rotate(-9deg);  }
+  .exp-fan-card[data-ei="1"].landed { left:calc(47.5vw - 105px + 45px); top:90px;  transform:rotate(5deg);   }
+  .exp-fan-card[data-ei="2"].landed { left:calc(47.5vw - 105px - 40px); top:180px; transform:rotate(-4deg);  }
+  .exp-fan-card[data-ei="3"].landed { left:calc(47.5vw - 105px + 50px); top:270px; transform:rotate(7deg);   }
 
-  /* ── ABOUT: more top padding, smaller body text, full-width portrait ── */
-  .about-inner {
-    grid-template-columns: 1fr;
-    padding: 3rem var(--pad) 3.5rem;
-    gap: 1.2rem;
-  }
-  h2.about-hl { white-space:normal; margin-left:0 !important; width:auto !important; font-size:clamp(2.8rem,13vw,4.5rem); }
+  /* ── ABOUT: inaktivera slow-scroll på mobil ── */
+  .about-scroll-driver { height: auto !important; }
+  .about-sticky { position: relative !important; height: auto !important; overflow: visible !important; }
+  .about-inner { animation: none !important; transform: none !important; grid-template-columns: 1fr; padding: 3rem var(--pad) 3.5rem; gap: 1.2rem; }
+  .about-heading-wrap { animation: none !important; transform: none !important; }
+  .about-heading-wrap { text-align: left !important; overflow: visible; width: 90%; margin: 0 auto; }
   .about-body {
     max-width: 100%;
     font-size: clamp(.78rem,3.2vw,.88rem);
@@ -347,7 +356,7 @@ footer{background:#fde6a4;padding:2rem var(--pad);display:flex;justify-content:c
     (function(){
       var v = document.getElementById('heroVid');
       function setSrc(){
-        var src = window.innerWidth <= 768 ? 'showreel_mobil.mp4' : 'showreel.mp4';
+        var src = window.innerWidth <= 768 ? 'showreel_mobil_lang.mp4' : 'showreel.mp4';
         if(v.getAttribute('src') !== src){ v.src = src; }
       }
       setSrc();
@@ -356,7 +365,7 @@ footer{background:#fde6a4;padding:2rem var(--pad);display:flex;justify-content:c
   </script>
   <div class="hero-overlay"></div>
   <picture>
-    <source media="(max-width:768px)" srcset="overlay_mobilny.png">
+    <source media="(max-width:768px)" srcset="hero_overlay_lang.png">
     <img class="hero-frame-overlay" src="over_hero3.png" alt="">
   </picture>
   <div class="hero-bottom">
@@ -430,7 +439,7 @@ footer{background:#fde6a4;padding:2rem var(--pad);display:flex;justify-content:c
           <span class="exp-chip">2024 – 2025</span>
           <p class="exp-company">Hyper Island</p>
           <p class="exp-desc">Motion Creative i Stockholm — animation, rörlig kommunikation och konceptutveckling. Projektbaserat och hands-on.</p>
-          <p class="exp-meta">Motion Creative-student · Heltid</p>
+          <p class="exp-meta">Motion design · yrkesutbildning</p>
         </div>
         <div class="exp-fan-card ec-4" data-ei="3">
           <span class="exp-chip">2020 – 2023</span>
@@ -452,7 +461,7 @@ footer{background:#fde6a4;padding:2rem var(--pad);display:flex;justify-content:c
   </div>
   <div class="about-inner">
     <div class="reveal">
-      <p class="about-body">Jag har ritat så länge jag kan minnas. På förskolan tog jag tatueringsbeställningar från kompisarna med tuschpennor. Den karriären tog en vändning, men känslan för form följde med hela vägen till animation, content och grafisk design.<br><br>Nu jobbar jag med rörlig grafik och innehåll som faktiskt når fram. Trivs bäst när projektet är lite svårt, målgruppen är bred och ingen riktigt vet hur det ska bli från början.<br><br>Jag nördar gärna ner mig när något väcker mitt intresse. Det kan vara sekelskiftets historia, dinosaurier eller hela Tolkiens mytologi. Gillar också att testa på nya saker, just nu freestylear jag en odling som faktiskt går toppen. Jag tror det är ungefär samma sak som gör mig bra på mitt jobb: jag är nyfiken, gillar att testa mig fram och lär mig snabbt när något är nytt.</p>
+      <p class="about-body">Jag har ritat så länge jag kan minnas. I grundskolan tog jag tatueringsbeställningar från kompisarna med tuschpennor. Den karriären tog en vändning, men känslan för form följde med hela vägen till animation, content och grafisk design.<br><br>Nu jobbar jag med rörlig grafik och innehåll som faktiskt når fram. Trivs bäst när projektet är lite svårt, målgruppen är bred och ingen riktigt vet hur det ska bli från början.<br><br>Jag nördar gärna ner mig när något väcker mitt intresse. Det kan vara sekelskiftets historia, dinosaurier eller hela Tolkiens mytologi. Gillar också att testa på nya saker, just nu freestylear jag en odling som faktiskt går toppen. Jag tror det är ungefär samma sak som gör mig bra på mitt jobb: jag är nyfiken, gillar att testa mig fram och lär mig snabbt när något är nytt.</p>
       <a href="Isa_CV.pdf" download class="cv-btn reveal reveal-d2">Ladda ner mitt CV</a>
     </div>
     <div class="photo-stack-wrap">
@@ -492,34 +501,90 @@ document.querySelectorAll('.reveal').forEach(function(el) { revObs.observe(el); 
   var fan    = document.getElementById('expFan');
   if(!driver || !fan) return;
   var cards = Array.from(fan.querySelectorAll('.exp-fan-card'));
-  var thresholds = [0.05, 0.28, 0.52, 0.76];
-  var landed = cards.map(function(){ return false; });
+  var thresholds = [0.05, 0.25, 0.45, 0.65];
   function check(){
     var rect  = driver.getBoundingClientRect();
     var total = driver.offsetHeight - window.innerHeight;
     var progress = Math.max(0, Math.min(1, -rect.top / total));
     cards.forEach(function(card, i){
-      if(!landed[i] && progress >= thresholds[i]){ landed[i]=true; card.classList.add('landed'); }
+      if(progress >= thresholds[i]){ card.classList.add('landed'); }
+      else { card.classList.remove('landed'); }
     });
   }
   window.addEventListener('scroll', check, {passive:true});
   check();
 })();
 
-// Exp-hl auto-fit
-(function(){
-  var title = document.querySelector('.exp-hl');
-  if(!title) return;
-  function fit(){
-    if(window.innerWidth <= 768){ title.style.fontSize = ''; return; }
-    var vw = document.documentElement.clientWidth;
-    title.style.fontSize = '100px';
-    var naturalW = title.scrollWidth;
-    title.style.fontSize = (97 * vw / naturalW) + 'px';
+// ── Rubriker auto-fit ──
+// Mäter en textsträng via dolt span i body (oberoende av container)
+function _measureStr(s, str) { s.textContent = str; return s.offsetWidth; }
+
+// Returnerar bredden på den smalaste möjliga "bredaste raden" vid max 2 rader.
+// Dvs. hittar den split-punkt som minimerar max(rad1, rad2) → ger störst font-size.
+function _bestTwoLineWidth(text, cs, basePx) {
+  var s = document.createElement('span');
+  s.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;top:-9999px;left:0;' +
+    'font-family:' + cs.fontFamily + ';font-weight:' + cs.fontWeight + ';font-size:' + basePx + 'px;' +
+    'letter-spacing:' + cs.letterSpacing + ';font-style:' + cs.fontStyle + ';';
+  document.body.appendChild(s);
+  var words = text.trim().split(/\s+/);
+  var best = Infinity;
+  // Prova varje möjlig radbrytning (efter ord i)
+  for (var i = 0; i < words.length - 1; i++) {
+    var w1 = _measureStr(s, words.slice(0, i + 1).join(' '));
+    var w2 = _measureStr(s, words.slice(i + 1).join(' '));
+    var widest = Math.max(w1, w2);
+    if (widest < best) best = widest;
   }
-  if(document.fonts){ document.fonts.ready.then(fit); } else { setTimeout(fit,200); }
-  window.addEventListener('resize', fit, {passive:true});
-})();
+  // Fallback: ett enda ord (1 rad)
+  if (best === Infinity) best = _measureStr(s, text.trim());
+  document.body.removeChild(s);
+  return best;
+}
+
+// Skapar en fit-funktion för ett givet rubrik-element
+function _makeFit(selector, align) {
+  var el = document.querySelector(selector);
+  if (!el) return;
+  var BASE = 100; // px vid mätning
+  var mobileAlign = align || 'left';
+  function fit() {
+    var vw = document.documentElement.clientWidth;
+    if (vw <= 900) {
+      // MOBIL: mät bredaste ordet → sätt font-size så det tar 97% av containern
+      var cs = window.getComputedStyle(el);
+      var maxW = _bestTwoLineWidth(el.textContent, cs, BASE);
+      if (maxW <= 0) return;
+      // Hämta containerns bredd — fallback till vw
+      var containerW = (el.parentElement && el.parentElement.clientWidth > 50)
+        ? el.parentElement.clientWidth : vw;
+      var fs = containerW * 0.96 / maxW * BASE;
+      el.style.fontSize = fs + 'px';
+      el.style.display = 'block';
+      el.style.whiteSpace = 'normal';
+      el.style.textAlign = mobileAlign;
+      el.style.width = '100%';
+      el.style.marginLeft = '0';
+    } else {
+      // DESKTOP: hela texten på en rad = 97% av vw
+      el.style.cssText = ''; // återställ inline-styles
+      el.style.fontSize = BASE + 'px';
+      el.style.whiteSpace = 'nowrap';
+      var sw = el.scrollWidth;
+      el.style.fontSize = (97 * vw / sw) + 'px';
+      el.style.whiteSpace = '';
+    }
+  }
+  function run() { try { fit(); } catch(e) {} }
+  if (document.fonts) {
+    document.fonts.ready.then(function() { run(); setTimeout(run, 400); setTimeout(run, 1000); });
+  } else {
+    setTimeout(run, 300);
+  }
+  window.addEventListener('resize', run, { passive: true });
+}
+
+_makeFit('.exp-hl');
 
 
 // Marquee rullar automatiskt via CSS-animation (se @keyframes marquee-scroll)
@@ -550,7 +615,7 @@ document.querySelectorAll('.reveal').forEach(function(el) { revObs.observe(el); 
   }
 
   function check(){
-    if(window.innerWidth <= 768) applyMobile();
+    if(window.innerWidth <= 900) applyMobile();
     else applyDesktop();
   }
 
@@ -558,8 +623,9 @@ document.querySelectorAll('.reveal').forEach(function(el) { revObs.observe(el); 
   window.addEventListener('resize', check, {passive:true});
 })();
 
-// About drift — frys animation i slutposition när sektionen är scrollad förbi
+// About drift — frys animation i slutposition när sektionen är scrollad förbi (desktop only)
 (function(){
+  if (window.innerWidth <= 900) return;
   var driver = document.querySelector('.about-scroll-driver');
   var inner  = document.querySelector('.about-inner');
   var headWrap = document.querySelector('.about-heading-wrap');
@@ -573,8 +639,8 @@ document.querySelectorAll('.reveal').forEach(function(el) { revObs.observe(el); 
     if (p >= 0.56) {
       frozen = true;
       inner.style.animation = 'none';
-      inner.style.transform = 'translateY(-12vh)';
-      if (headWrap) { headWrap.style.animation = 'none'; headWrap.style.transform = 'translateY(-12vh)'; }
+      inner.style.transform = 'translateY(-18vh)';
+      if (headWrap) { headWrap.style.animation = 'none'; headWrap.style.transform = 'translateY(-18vh)'; }
     }
   }, {passive:true});
 })();
@@ -599,33 +665,28 @@ document.querySelectorAll('.reveal').forEach(function(el) { revObs.observe(el); 
   check();
 })();
 
-// Fit about-hl till 97% av viewport-bredd, centrerad (desktop only)
-(function(){
-  var title = document.querySelector('.about-hl');
-  if(!title) return;
-  function fit(){
-    if(window.innerWidth <= 768){ title.style.fontSize = ''; return; }
-    var vw = document.documentElement.clientWidth;
-    title.style.fontSize = '100px';
-    var naturalW = title.scrollWidth;
-    title.style.fontSize = (97 * vw / naturalW) + 'px';
-  }
-  if(document.fonts){ document.fonts.ready.then(function(){ fit(); setTimeout(fit, 400); }); } else { setTimeout(fit, 200); }
-  window.addEventListener('resize', fit, {passive:true});
-})();
+_makeFit('.about-hl', 'left');
+_makeFit('.work-title');
 
-// Fit work-title till nästan full bredd (med sidpadding)
+// Mobil: sätt work-panelens höjd = högerkolumnens botten → sticky slutar där.
+// Padding under gridden bevaras i proj-grid. Exp-panelen täcker vänsterkolumnens overflow.
 (function(){
-  var title = document.querySelector('.work-title');
-  if(!title) return;
-  function fit(){
-    if(window.innerWidth <= 768){ title.style.fontSize = ''; return; }
-    title.style.fontSize = '100px';
-    var naturalW = title.scrollWidth;
-    title.style.fontSize = (97 * document.documentElement.clientWidth / naturalW) + 'px';
+  function clipWorkToRightCol(){
+    var wp = document.querySelector('.work-panel');
+    if(!wp) return;
+    if(window.innerWidth > 768){ wp.style.height = ''; wp.style.overflow = ''; return; }
+    var cols = wp.querySelectorAll('.proj-col');
+    if(cols.length < 3) return;
+    var rightBottom = Math.max(
+      cols[0].getBoundingClientRect().bottom + window.scrollY,
+      cols[2].getBoundingClientRect().bottom + window.scrollY
+    );
+    var panelTop = wp.getBoundingClientRect().top + window.scrollY;
+    wp.style.height   = (rightBottom - panelTop + 48) + 'px'; // +48 = lite luft under sista kortet
+    wp.style.overflow = 'visible';
   }
-  if(document.fonts){ document.fonts.ready.then(function(){ fit(); setTimeout(fit, 400); }); } else { setTimeout(fit, 200); }
-  window.addEventListener('resize', fit, {passive:true});
+  window.addEventListener('load', function(){ setTimeout(clipWorkToRightCol, 300); });
+  window.addEventListener('resize', clipWorkToRightCol);
 })();
 
 

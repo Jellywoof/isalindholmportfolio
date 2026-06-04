@@ -41,7 +41,8 @@ img{max-width:100%;height:auto}
 .pcard-cursor-pill{display:block;font-family:var(--nm);font-size:.72rem;font-weight:700;letter-spacing:.04em;padding:.45rem 1rem;border-radius:999px;white-space:nowrap}
 
 /* HERO */
-.hero{position:relative;height:100vh;overflow:hidden;background:#0d0d0d}
+.hero{position:relative;height:100vh;overflow:hidden;background:url('Poster_bild.png') center/cover no-repeat}
+@media(max-width:768px){.hero{background-image:url('Poster_bild_mobil.png')}}
 .hero-frame{position:relative;overflow:hidden;z-index:3}
 .section-cover{position:absolute;bottom:0;left:0;right:0;height:110%;background:var(--cover-bg);border-radius:48% 48% 0 0 / 70px 70px 0 0;transform:translateY(100%) translateZ(0);z-index:10;pointer-events:none;will-change:transform;isolation:isolate}
 .hero-cover{position:absolute;bottom:0;left:0;right:0;height:110%;background:#b7d6ed;border-radius:48% 48% 0 0 / 70px 70px 0 0;transform:translateY(100%);z-index:10;pointer-events:none;will-change:transform}
@@ -354,7 +355,7 @@ footer{background:#fde6a4;padding:2rem var(--pad);display:flex;justify-content:c
   <svg class="deco-star deco-star-3" viewBox="0 0 24 24"><path d="M12 0L13.8 10.2L24 12L13.8 13.8L12 24L10.2 13.8L0 12L10.2 10.2Z"/></svg>
   <svg class="deco-star deco-star-4" viewBox="0 0 24 24"><path d="M12 0L13.8 10.2L24 12L13.8 13.8L12 24L10.2 13.8L0 12L10.2 10.2Z"/></svg>
   <svg class="deco-star deco-star-5" viewBox="0 0 24 24"><path d="M12 0L13.8 10.2L24 12L13.8 13.8L12 24L10.2 13.8L0 12L10.2 10.2Z"/></svg>
-  <video class="hero-gif" id="heroVid" autoplay loop muted playsinline></video>
+  <video class="hero-gif" id="heroVid" autoplay loop muted playsinline style="opacity:0;transition:opacity .4s"></video>
   <script>
     (function(){
       var v = document.getElementById('heroVid');
@@ -365,6 +366,7 @@ footer{background:#fde6a4;padding:2rem var(--pad);display:flex;justify-content:c
       }
       setSrc();
       window.addEventListener('resize', setSrc, {passive:true});
+      v.addEventListener('playing', function(){ v.style.opacity = '1'; }, {once:true});
     })();
   </script>
   <div class="hero-overlay"></div>

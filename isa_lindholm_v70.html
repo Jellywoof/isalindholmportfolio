@@ -354,21 +354,17 @@ footer{background:#fde6a4;padding:2rem var(--pad);display:flex;justify-content:c
   <svg class="deco-star deco-star-3" viewBox="0 0 24 24"><path d="M12 0L13.8 10.2L24 12L13.8 13.8L12 24L10.2 13.8L0 12L10.2 10.2Z"/></svg>
   <svg class="deco-star deco-star-4" viewBox="0 0 24 24"><path d="M12 0L13.8 10.2L24 12L13.8 13.8L12 24L10.2 13.8L0 12L10.2 10.2Z"/></svg>
   <svg class="deco-star deco-star-5" viewBox="0 0 24 24"><path d="M12 0L13.8 10.2L24 12L13.8 13.8L12 24L10.2 13.8L0 12L10.2 10.2Z"/></svg>
-  <img id="heroPoster" src="Poster_bild.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;" alt="">
-  <video class="hero-gif" id="heroVid" autoplay loop muted playsinline style="z-index:1;"></video>
+  <video class="hero-gif" id="heroVid" autoplay loop muted playsinline></video>
   <script>
     (function(){
       var v = document.getElementById('heroVid');
-      var p = document.getElementById('heroPoster');
       function setSrc(){
         var mob = window.innerWidth <= 768;
         var src = mob ? 'showreel_mobil_lang.mp4' : 'showreel.mp4';
-        p.src = mob ? 'Poster_bild_mobil.png' : 'Poster_bild.png';
         if(v.getAttribute('src') !== src){ v.src = src; }
       }
       setSrc();
       window.addEventListener('resize', setSrc, {passive:true});
-      v.addEventListener('playing', function(){ p.style.display = 'none'; }, {once:true});
     })();
   </script>
   <div class="hero-overlay"></div>

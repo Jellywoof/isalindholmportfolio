@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Isa Lindholm – Portfolio</title>
 <link rel="icon" href="thumbnail.png" type="image/png">
+<link rel="preload" as="image" href="Poster_bild.png" media="(min-width:769px)">
+<link rel="preload" as="image" href="Poster_bild_mobil.png" media="(max-width:768px)">
 <link rel="stylesheet" href="https://use.typekit.net/bzd2orb.css">
 <link rel="stylesheet" href="shared.css">
 <style>
@@ -29,8 +31,8 @@
   --c5-bg:#c1b7d0; --c5-acc:#faf7c4;
   --dark:#181818; --white:#fff;
 }
-html{scroll-behavior:smooth;overflow-x:clip}
-body{font-family:var(--nm);font-weight:500;background:var(--white);color:var(--dark);-webkit-font-smoothing:antialiased;overflow-x:clip}
+html{scroll-behavior:smooth}
+body{font-family:var(--nm);font-weight:500;background:var(--white);color:var(--dark);-webkit-font-smoothing:antialiased}
 img{max-width:100%;height:auto}
 
 /* NAV – stilar hanteras av shared.css, inget override här */
@@ -60,6 +62,7 @@ img{max-width:100%;height:auto}
 
 /* PANELS */
 .panel{position:relative;border-radius:28px 28px 0 0;margin-top:-28px;box-shadow:none}
+.page-wrap{overflow-x:clip}
 
 /* WORK */
 .work-frame{position:relative;overflow:visible;z-index:2}
@@ -140,13 +143,12 @@ h2.exp-hl{font-family:var(--arb);font-weight:700;font-size:10vw;color:var(--dark
 
 /* ABOUT */
 .about-panel{background:var(--c3-bg);box-shadow:none;z-index:3}
-.about-scroll-driver{height:500vh;view-timeline:--about-tl block}
+.about-scroll-driver{height:200vh}
 .about-sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column}
-.about-inner{padding:clamp(3rem,5.5vw,5.5rem) var(--pad) clamp(2rem,4vw,4rem);display:grid;grid-template-columns:1fr 1fr;gap:clamp(3rem,6vw,6rem);align-items:center;flex:1;animation:about-drift linear both;animation-timeline:--about-tl;animation-range:entry 0% cover 55%}
-.about-heading-wrap{padding:clamp(.2rem,.5vw,.5rem) 0 0;text-align:center;animation:about-drift linear both;animation-timeline:--about-tl;animation-range:entry 0% cover 55%}
-@keyframes about-drift{from{transform:translateY(8vh)}to{transform:translateY(-18vh)}}
+.about-inner{padding:clamp(2rem,4vw,4rem) var(--pad) clamp(2rem,4vw,4rem);display:grid;grid-template-columns:1fr 1fr;gap:clamp(3rem,6vw,6rem);align-items:center;flex:1}
+.about-heading-wrap{padding:clamp(2.5rem,5vw,5rem) 0 0;text-align:center}
+
 .about-eyebrow{font-family:var(--nm);font-size:.52rem;letter-spacing:.28em;text-transform:uppercase;font-weight:500;margin-bottom:1.2rem;display:block;color:rgba(252,224,132,.45)}
-.about-heading-wrap{padding:clamp(1.5rem,3vw,3rem) 0 0;text-align:center}
 h2.about-hl{font-family:var(--arb);font-weight:700;font-size:10vw;color:var(--c3-acc);line-height:.9;letter-spacing:.01em;margin-bottom:0;white-space:nowrap;display:inline-block}
 h2.about-hl em{font-style:italic}
 .about-body{font-family:var(--nm);font-weight:500;font-size:clamp(.98rem,1.4vw,1.08rem);line-height:1.7;color:rgba(252,224,132,.85);max-width:460px;margin-bottom:1.5rem}
@@ -284,10 +286,10 @@ footer{background:#fde6a4;padding:2rem var(--pad);display:flex;justify-content:c
   .exp-fan-card[data-ei="3"].landed { left:calc(47.5vw - 105px + 50px); top:225px; transform:rotate(7deg);   }
 
   /* ── ABOUT: sticky på mobil ── */
-  .about-scroll-driver { height: 220vh !important; }
+  .about-scroll-driver { height: 150vh !important; }
   .about-sticky { position: sticky !important; top: 40px !important; height: calc(100vh - 40px) !important; overflow-y: auto !important; }
-  .about-inner { animation: none !important; transform: none !important; grid-template-columns: 1fr; padding: 3rem var(--pad) 3.5rem; gap: 1.2rem; }
-  .about-heading-wrap { animation: none !important; transform: none !important; }
+  .about-inner { grid-template-columns: 1fr; padding: 3rem var(--pad) 3.5rem; gap: 1.2rem; }
+  
   .about-heading-wrap { text-align: left !important; overflow: visible; width: 90%; margin: 0 auto; }
   .about-body {
     max-width: 100%;
@@ -349,24 +351,35 @@ footer{background:#fde6a4;padding:2rem var(--pad);display:flex;justify-content:c
 
 <div class="hero-frame">
 <section class="hero">
-  <div class="hero-bg"></div>
+  <picture id="heroPosterPic" style="position:absolute;inset:0;z-index:0;display:block">
+    <source id="heroPosterSrc" media="(max-width:768px)" srcset="Poster_bild_mobil.png">
+    <img id="heroPosterImg" src="Poster_bild.png" style="width:100%;height:100%;object-fit:cover;display:block">
+  </picture>
   <svg class="deco-star deco-star-1" viewBox="0 0 24 24"><path d="M12 0L13.8 10.2L24 12L13.8 13.8L12 24L10.2 13.8L0 12L10.2 10.2Z"/></svg>
   <svg class="deco-star deco-star-2" viewBox="0 0 24 24"><path d="M12 0L13.8 10.2L24 12L13.8 13.8L12 24L10.2 13.8L0 12L10.2 10.2Z"/></svg>
   <svg class="deco-star deco-star-3" viewBox="0 0 24 24"><path d="M12 0L13.8 10.2L24 12L13.8 13.8L12 24L10.2 13.8L0 12L10.2 10.2Z"/></svg>
   <svg class="deco-star deco-star-4" viewBox="0 0 24 24"><path d="M12 0L13.8 10.2L24 12L13.8 13.8L12 24L10.2 13.8L0 12L10.2 10.2Z"/></svg>
   <svg class="deco-star deco-star-5" viewBox="0 0 24 24"><path d="M12 0L13.8 10.2L24 12L13.8 13.8L12 24L10.2 13.8L0 12L10.2 10.2Z"/></svg>
-  <video class="hero-gif" id="heroVid" autoplay loop muted playsinline style="opacity:0;transition:opacity .4s"></video>
+  <video class="hero-gif" id="heroVid" autoplay loop muted playsinline poster="Poster_bild.png" style="opacity:0;transition:opacity .4s"></video>
   <script>
     (function(){
       var v = document.getElementById('heroVid');
+      var img = document.getElementById('heroPosterImg');
       function setSrc(){
         var mob = window.innerWidth <= 768;
         var src = mob ? 'showreel_mobil_lang.mp4' : 'showreel.mp4';
         if(v.getAttribute('src') !== src){ v.src = src; }
+        v.poster = mob ? 'Poster_bild_mobil.png' : 'Poster_bild.png';
       }
       setSrc();
       window.addEventListener('resize', setSrc, {passive:true});
-      v.addEventListener('playing', function(){ v.style.opacity = '1'; }, {once:true});
+      v.addEventListener('timeupdate', function handler(){
+        if(v.currentTime > 0.15){
+          v.removeEventListener('timeupdate', handler);
+          v.style.opacity = '1';
+          setTimeout(function(){ if(img){ img.style.transition='opacity .4s'; img.style.opacity='0'; } }, 400);
+        }
+      });
     })();
   </script>
   <div class="hero-overlay"></div>
@@ -468,7 +481,7 @@ footer{background:#fde6a4;padding:2rem var(--pad);display:flex;justify-content:c
   <div class="about-inner">
     <div class="reveal">
       <p class="about-body">I've been drawing for as long as I can remember. In primary school I took tattoo orders from friends using felt-tip pens. That career took a different turn, but the love for form stayed with me all the way into animation, content and graphic design.<br><br>I now work with motion graphics and content that actually lands. I do my best work when the project is a bit tricky, the audience is broad and nobody quite knows what it should look like from the start.<br><br>I love diving deep when something catches my interest — whether that's turn-of-the-century history, dinosaurs or the full mythology of Tolkien. I also like trying new things; right now I'm freelancing a garden that's actually going great. I think it's roughly the same thing that makes me good at my job: I'm curious, I like figuring things out and I pick up new things quickly.</p>
-      <a href="Isa_CV.pdf" download class="cv-btn reveal reveal-d2">Download my CV</a>
+      <a href="Isa_CV.pdf" download class="cv-btn">Download my CV</a>
     </div>
     <div class="photo-stack-wrap">
       <div class="photo-stack" id="photoStack">
@@ -629,27 +642,7 @@ _makeFit('.exp-hl');
   window.addEventListener('resize', check, {passive:true});
 })();
 
-// About drift — frys animation i slutposition när sektionen är scrollad förbi (desktop only)
-(function(){
-  if (window.innerWidth <= 900) return;
-  var driver = document.querySelector('.about-scroll-driver');
-  var inner  = document.querySelector('.about-inner');
-  var headWrap = document.querySelector('.about-heading-wrap');
-  if (!driver || !inner) return;
-  var frozen = false;
-  window.addEventListener('scroll', function(){
-    if (frozen) return;
-    var rect = driver.getBoundingClientRect();
-    var total = driver.offsetHeight - window.innerHeight;
-    var p = total > 0 ? Math.max(0, Math.min(1, -rect.top / total)) : 0;
-    if (p >= 0.56) {
-      frozen = true;
-      inner.style.animation = 'none';
-      inner.style.transform = 'translateY(-18vh)';
-      if (headWrap) { headWrap.style.animation = 'none'; headWrap.style.transform = 'translateY(-18vh)'; }
-    }
-  }, {passive:true});
-})();
+
 
 // About — kort landar progressivt under skrollningen
 (function(){
@@ -657,7 +650,7 @@ _makeFit('.exp-hl');
   var stack  = document.getElementById('photoStack');
   if(!driver || !stack) return;
   var cards = Array.from(stack.querySelectorAll('.photo-card'));
-  var thresholds = [0.08, 0.30, 0.55];
+  var thresholds = [0.15, 0.40, 0.65];
   var landed = [false,false,false];
   function check(){
     var rect  = driver.getBoundingClientRect();
